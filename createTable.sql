@@ -39,10 +39,12 @@ CREATE TABLE Orders(order_id INTEGER NOT NULL AUTO_INCREMENT,
 					
 					
 CREATE TABLE Promotions(promo_id INTEGER NOT NULL AUTO_INCREMENT,
+					prod_id NOT NULL,
 					discount FLOAT NOT NULL,
 					startDate DATE NOT NULL,
 					endDate DATE,
 					managerOrdered INTEGER NOT NULL,
 					PRIMARY KEY (promo_id),
 					FOREIGN KEY (managerOrdered) REFERENCES Staff(sid),
+					FOREIGN KEY (prod_id) REFERENCES Products(prod_id),
 						CHECK (discount < 1));		
