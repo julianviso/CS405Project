@@ -15,7 +15,7 @@ CREATE TABLE Products(prod_id INTEGER NOT NULL AUTO_INCREMENT,
 					price FLOAT NOT NULL,
 					PRIMARY KEY (prod_id),
 					CHECK (price > 0));
-
+/*
 CREATE TABLE Purchase(prod_id INTEGER NOT NULL AUTO_INCREMENT,
 					email VARCHAR(30) NOT NULL,
 					PRIMARY KEY (prod_id, email),
@@ -27,7 +27,7 @@ CREATE TABLE Cart(cart_id INTEGER NOT NULL AUTO_INCREMENT,
 					PRIMARY KEY (cart_id),
 					FOREIGN KEY (email) REFERENCES Customers(email),
 					FOREIGN KEY (prod_id) REFERENCES Products(prod_id));
-
+*/
 CREATE TABLE Orders(order_id INTEGER NOT NULL AUTO_INCREMENT,
 					status INTEGER,
 					shippingDate DATE,
