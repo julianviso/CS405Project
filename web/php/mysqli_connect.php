@@ -1,25 +1,17 @@
 <?php
-//---abstracted ! ------
-class connection{
-    public $host ="cs.uky.edu";
-    public $user = "javi223"; 
-    public $password = "password";
-    public $db="cs405";
-    public $dbc;
-    
-    function __construct() {
-        $con = mysqli_connect($this->host, $this->user, $this->password, $this->db);
-        
-        if(mysqli_errno($con)){
-            echo"some error";
-            
-        }
-        else{
-           $this->dbc = $con; // assign $con to $dbc
-           echo"connected ";
-        }
-    }
-}
 
-$test = new connection();
+
+
+$dbhost = 'mastelottoplan.backups.uky.edu';
+
+$dbname = 'db_name(username for sql db usually same as user)';
+
+$dbuser = 'multi_lab user_name';
+
+$dbpass = 'multi_lab password';
+
+$conn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname) or die("could not connect to mysql" .
+
+mysqli_connect_error());
+
 ?>
