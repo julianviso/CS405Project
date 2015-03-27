@@ -31,10 +31,65 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<?php
 		if (isset($_POST['register'])){
 			$missingData = array();
-			if (isset($_POST['first name']))
-				echo "Missing first name!"
-		}
+
+			if (isset($_POST['firstName']))
+			{
+				//if first name is not found when register button gets clicked add to the array the information that's missing
+				//Else remove any whitespace that the user may have entered in the first name
+				echo "Missing first name!";
+				$missingData[] = 'First Name'; 
+			}	
+			else
+			{
+				$fname = trim($_POST['firstName']);
+			}
+
+			if (isset($_POST['lastName']))
+			{
+				//if last name is not found when register button gets clicked add to the array the information that's missing
+				//Else remove any whitespace that the user may have entered in the last name
+				echo "Missing last name!";
+				$missingData[] = 'Last Name'; 
+			} else
+			{
+				$lname = trim($_POST['lastName']);
+			}
+
+			if (isset($_POST['email']))
+			{
+				echo "Missing email!";
+				$missingData[] = 'email'; 
+			} 
+			else
+			{
+				$custEmail = trim($_POST['email']);
+			}
+
+			if (isset($_POST['password']))
+			{
+				echo "Missing password";
+				$missingData[] = 'password';
+			}
+			else
+			{
+				$custPassword = trim($_POST['password']);
+			}
+
+			//If there is no missing data in array
+			if(empty($missingData))
+			{
+        			require_once('web/php/mysqli_connect.php');
+        			$query = "INSERT INTO customers (email, fname, lname, password)
+         			VALUES (?, ?, ?, ?)";
+			}	
 	?>
+	
+	
+	TABLE Customers(email VARCHAR(30) NOT NULL,
+					fname VARCHAR(30) NOT NULL,
+					lname VARCHAR(30) NOT NULL,
+					password VARCHAR(30) NOT NULL,
+					PRIMARY KEY (email));
 	
 	
 	
