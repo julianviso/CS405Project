@@ -29,7 +29,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <body>
 	
 	<?php>
-
+		if (isset($_POST['register'])){
+			$missingData = array();
+			if (isset($_POST['first name']))
+				echo "Missing first name!"
+		}
 	<?>
 	
 	
@@ -99,17 +103,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     		<h3>Register New Account</h3>
     		<form>
 		   			 <table>
-		   				<tbody><tr><td><div><input type="text" value="First Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'First Name';}" ></div>
-		    			<div><input type="text" value="Last Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Last Name';}"></div>
-		    			<div><input type="text" value="E-Mail" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'E-Mail';}"></div>
-		    			<div><input type="text" value="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"></div>
+		   				<tbody><tr><td><div><input type="text" name="firstName" value="firstName" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'First Name';}" ></div>
+		    			<div><input type="text" name="lastName" value="lastName" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Last Name';}"></div>
+		    			<div><input type="text" name="email" value="E-Mail" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'E-Mail';}"></div>
+		    			<div><input type="text" name="password" value="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"></div>
 		    			 </td>
 		    			<td>
 		           
 		    	</td>
 		    </tr> 
 		    </tbody></table> 
-		   <div class="search"><div><button class="grey">Create Account</button></div></div>
+			<!--
+		   <div class="search">< div><button class="grey">Create Account</button></div></div> -->
+			<div class="search"></div><button type="register" name="register" >Create Account</button></div></div>
 		    <p class="terms">By clicking 'Create Account' you agree to the <a href="#">Terms &amp; Conditions</a>.</p>
 		    <div class="clear"></div>
 		    </form>
