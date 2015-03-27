@@ -1,17 +1,17 @@
 <?php
 //---abstracted ! ------
 class connection{
-    public $host ="yourHostIp";
-    public $user = "UserName"; 
+    public $host ="cs.uky.edu";
+    public $user = "javi223"; 
     public $password = "password";
-    public $db="yourDatabase";
+    public $db="cs405";
     public $dbc;
     
     function __construct() {
         $con = mysqli_connect($this->host, $this->user, $this->password, $this->db);
         
         if(mysqli_errno($con)){
-            echo"sum error";
+            echo"some error";
             
         }
         else{
