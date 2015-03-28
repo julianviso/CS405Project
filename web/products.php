@@ -31,8 +31,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
   <div class="wrap">
 
     <?php
-        include "components/header_menu.html";
         include "components/header_top.html";
+        include "components/header_menu.html";
     ?>
       
  <div class="main">
