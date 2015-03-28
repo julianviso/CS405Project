@@ -4,6 +4,12 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+
+<?php
+    include "header_top.html";
+    include "header_menu.html";
+?>
+
 <!DOCTYPE HTML>
 <head>
 <title>Free Smart Store Website Template | FAQ :: w3layouts</title>
@@ -26,187 +32,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </script>
 </head>
 <body>
-  <div class="wrap">
-	<div class="header">
-		<div class="header_top">
-			<div class="logo">
-				<a href="index.html"><img src="images/logo.png" alt="" /></a>
-			</div>
-			  <div class="header_top_right">
-			    <div class="search_box">
-				    <form>
-				    	<input type="text" value="Search for Products" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search for Products';}"><input type="submit" value="SEARCH">
-				    </form>
-			    </div>
-			    <div class="shopping_cart">
-					<div class="cart">
-						<a href="#" title="View my shopping cart" rel="nofollow">
-							<strong class="opencart"> </strong>
-								<span class="cart_title">Cart</span>
-									<span class="no_product">(empty)</span>
-							</a>
-						</div>
-			      </div>
-		   <div class="login">
-		   	   <span><a href="login.html"><img src="images/login.png" alt="" title="login"/></a></span>
-		   </div>
-		 </div>
+<div class="wrap">
 
-
-		 <div class="clear"></div>
-	   </div>
-	 <div class="clear"></div>
-   </div>
-	<div class="menu">
-	  <ul id="dc_mega-menu-orange" class="dc_mm-orange">
-		 <li><a href="index.html">Home</a></li>
-    <li><a href="products.html">Products</a>
-    <ul>
-      <li><a href="products.html">Mobile Phones</a>
-        <ul>
-          <li><a href="preview-2.html">Product 1</a></li>
-          <li><a href="preview-3.html">Product 2</a></li>
-          <li><a href="#">Product 3</a></li>
-          <li><a href="#">Product 4</a></li>
-          <li><a href="preview-6.html">Product 5</a></li>
-          <li><a href="#">Product 6</a></li>
-        </ul>
-      </li>
-      <li><a href="products.html">Desktop</a>
-        <ul>
-          <li><a href="preview.html">Product 1</a></li>
-          <li><a href="preview-5.html">Product 2</a></li>
-          <li><a href="preview-3.html">Product 3</a></li>
-          <li><a href="#">Product 4</a></li>
-          <li><a href="#">Product 5</a></li>
-          <li><a href="#">Product 6</a></li>
-        </ul>
-      </li>
-      <li><a href="products.html">Laptop</a>
-        <ul>
-          <li><a href="preview-2.html">Product 10</a></li>
-          <li><a href="preview-5.html">Product 11</a></li>
-          <li><a href="#">Product 12</a></li>
-          <li><a href="#">Product 13</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Accessories</a>
-        <ul>
-          <li><a href="#">Product 14</a></li>
-          <li><a href="#">Product 15</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Software</a>
-        <ul>
-          <li><a href="#">Product 16</a></li>
-          <li><a href="#">Product 17</a></li>
-          <li><a href="#">Product 18</a></li>
-          <li><a href="#">Product 19</a></li>
-        </ul>
-      </li>
-       <li><a href="#">Sports & Fitness</a>
-        <ul>
-          <li><a href="#">Product 16</a></li>
-          <li><a href="#">Product 17</a></li>
-          <li><a href="#">Product 18</a></li>
-          <li><a href="#">Product 19</a></li>
-        </ul>
-      </li>
-       <li><a href="#">Footwear</a>
-        <ul>
-          <li><a href="#">Product 16</a></li>
-          <li><a href="#">Product 17</a></li>
-          <li><a href="#">Product 18</a></li>
-          <li><a href="#">Product 19</a></li>
-        </ul>
-      </li>
-       <li><a href="#">Jewellery</a>
-        <ul>
-          <li><a href="#">Product 16</a></li>
-          <li><a href="#">Product 17</a></li>
-          <li><a href="#">Product 18</a></li>
-          <li><a href="#">Product 19</a></li>
-        </ul>
-      </li>
-       <li><a href="#">Clothing</a>
-        <ul>
-          <li><a href="#">Product 16</a></li>
-          <li><a href="#">Product 17</a></li>
-          <li><a href="#">Product 18</a></li>
-          <li><a href="#">Product 19</a></li>
-        </ul>
-      </li>
-       <li><a href="#">Home Decor & Kitchen</a>
-        <ul>
-          <li><a href="#">Product 16</a></li>
-          <li><a href="#">Product 17</a></li>
-          <li><a href="#">Product 18</a></li>
-          <li><a href="#">Product 19</a></li>
-        </ul>
-      </li>
-       <li><a href="#">Beauty & Healthcare</a>
-        <ul>
-          <li><a href="#">Product 16</a></li>
-          <li><a href="#">Product 17</a></li>
-          <li><a href="#">Product 18</a></li>
-          <li><a href="#">Product 19</a></li>
-        </ul>
-      </li>
-       <li><a href="#">Toys, Kids & Babies</a>
-        <ul>
-          <li><a href="#">Product 16</a></li>
-          <li><a href="#">Product 17</a></li>
-          <li><a href="#">Product 18</a></li>
-          <li><a href="#">Product 19</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><a href="products.html">Top Brands</a>
-    <ul>
-      <li><a href="products.html">Brand Name 1</a></li>
-      <li><a href="products.html">Brand Name 2</a></li>
-      <li><a href="products.html">Brand Name 3</a></li>
-      <li><a href="#">Brand Name 4</a></li>
-      <li><a href="#">Brand Name 5</a></li>
-      <li><a href="#">Brand Name 6</a></li>
-      <li><a href="#">Brand Name 7</a></li>
-      <li><a href="#">Brand Name 8</a></li>
-      <li><a href="#">Brand Name 9</a></li>
-      <li><a href="#">Brand Name 10</a></li>
-    </ul>
-  </li>
-  <li><a href="faq.html">Services</a>
-    <ul>
-      <li><a href="#">Service 1</a>
-        <ul>
-          <li><a href="#">Service Detail A</a></li>
-          <li><a href="#">Service Detail B</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Service 2</a>
-        <ul>
-          <li><a href="#">Service Detail C</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Service 3</a>
-        <ul>
-          <li><a href="#">Service Detail D</a></li>
-          <li><a href="#">Service Detail E</a></li>
-          <li><a href="#">Service Detail F</a></li>
-        </ul>
-      </li>
-      <li><a href="#">Service 4</a></li>
-    </ul>
-  </li>
-  <li><a href="about.html">About</a></li>
-   <li><a href="#">Delivery</a></li>
-  <li><a href="faq.html">FAQS</a></li>
-  <li><a href="contact.html">Contact</a> </li>
-  <div class="clear"></div>
-</ul>
-</div>
- </div>
  <div class="main">
     <div class="content">
     	<h2>Frequently Asked Questions</h2>
@@ -254,6 +81,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
  </div>
 </div>
 
+<?php
+    include "footer.html";
+?>
+    
 </body>
-</html>
 
