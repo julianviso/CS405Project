@@ -3,13 +3,15 @@
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="css/menu.css" rel="stylesheet" type="text/css" media="all"/>
 
+</head>
+
+<body>
+
     <?php
         include "components/header_top.html";
         include "components/header_menu.html";
     ?>
-</head>
-
-<body>
+    
 <div class="main">
     <div class="content">
     	<div class="content_top">
@@ -56,6 +58,6 @@
 </div>
 
 <?php
-    include "components/footer.html";
+    include "components/footer.html";     
 ?>
 </body>
