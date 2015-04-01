@@ -29,6 +29,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <body>
 	
 	<?php
+		//If the user tries to create a new account and hits the register button.
 		if (isset($_POST['register_account'])){
 			$missingData = array();
 
@@ -81,7 +82,23 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         			require_once('web/php/mysqli_connect.php');
         			$query = "INSERT INTO customers (email, fname, lname, password)
          			VALUES (?, ?, ?, ?)";
-			}	
+				$stmt = mysqli_prepare($connected, $query);
+				mysqli_stmt_bind_param($stmt, 'ssss', $email, $lname,$fname, $password);
+        			mysqli_stmt_execute($stmt);
+        			$affected_rows = mysqli_stmt_affected_rows($stmt);
+        			if($affected_rows == 1){
+            			echo 'Account Created';
+            			mysqli_stmt_close($stmt);
+            			mysqli_close($connected);
+				}	
+				else{
+					echo 'Error<br/>';
+					echo mysqli_error();
+					mysqli_stmt_close($stmt);
+					mysqli_close($connected);
+				}
+			}
+		}
 	?>
 	
 	
