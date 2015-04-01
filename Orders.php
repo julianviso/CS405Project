@@ -4,6 +4,7 @@ Purpose:
     Allows a custumer to view their product orders.
 Preconditions:
     The customer clicks on the orders link to view this page.
+    The customer can choose to view order details.
 Postconditions:
     If the customer is not known, display a message telling them to log in.
     Else if there are no orders, say so.
@@ -28,27 +29,70 @@ Postconditions:
     <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Doppio+One' rel='stylesheet' type='text/css'>
 
-        
         <?php
+            require "sql/serverinfo.php";
             include "components/header_top.html";
-            include "components/header_menu.html";
+            include "components/header_menu.html"; 
         ?>
-        
     </head>
     <body>
         
-        <!--
-            $_SESSION maintains a user's information across pages until they close the browser.
-        -->
-        <?php
-        if (!isset($_SESSION["CID"])) {
-            //header("location: index.php");
+    <!--
+        $_SESSION maintains a user's information across pages until they close the brex.phpowser.
+        Redirect if the email is not known to the PleaseLogin page.
+    -->
+    <?php
+        session_start();
+        if (!isset($_SESSION["email"])) {
+            //header("location: PleaseLogin.php");
             //exit();
         }
-    
 
-        include "components/footer.html";
-        ?>
+    //Query for the Orders corresponding to this session user
+    $query_string = 
+        "SELECT DISTINCT order_id, status, shippingDate, orderDate,
+        FROM Orders
+        WHERE email = '".$_SESSION['email']."'";
+
+    //Connect to the database
+    $connection = mysqli_connect($host, $login, $password, $dbname);
+    //Get the query
+    $db_stmnt = @mysqli_query($connection, $query_string);
+
+    if($response){
+        //Table header
+        echo '<table>';
+        echo
+            '<tr>
+                <td align="center">ORDER</td>
+                <td align="center">SHIP STATUS</td>
+                <td align="center">DATE ORDERED</td>
+                <td align="center">DATE SHIPPED</td>
+                <td align="center">TOTAL</td>
+            </tr>';
+        
+        while ($this_row = mysqli_fetch_array($db_stmnt)){
+            $total = '0';
+
+            //Concatenation is done with . in php            
+            echo
+                '<tr>
+                    <td>'.$row['order_id'].'</td>
+                    <td>'.$row['status'].'</td>
+                    <td>'.$row['orderDate'].'</td>
+                    <td>'.$row['shippingDate'].'</td>
+                    <td>'.$row['total'].'</td>
+                </tr>';
+        }
+        echo '</table>';
+    } else {
+        //Handle empty orders, etc.
+        echo '<h3>You either have no orders, or query is malformed.</h3>';
+    } 
+
+    mysqli_close($connection);
+    include "components/footer.html";
+    ?>
         
     </body>
 </html>
