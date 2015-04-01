@@ -30,7 +30,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	
 	<?php
 		//If the user tries to create a new account and hits the register button.
-		if (isset($_POST['register_account'])){
+		if (isset($_POST['register'])){
 			$missingData = array();
 
 			if (isset($_POST['firstName']))
@@ -76,14 +76,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				$custPassword = trim($_POST['password']);
 			}
 
-			//If there is no missing data in array
+			//If there is no missing data in array put the data in the customers table and echo that the account was created.
 			if(empty($missingData))
 			{
         			require_once('web/php/mysqli_connect.php');
-        			$query = "INSERT INTO customers (email, fname, lname, password)
-         			VALUES (?, ?, ?, ?)";
+        			$query = "INSERT INTO customers (email, fname, lname, password) VALUES (?, ?, ?, ?)";
 				$stmt = mysqli_prepare($connected, $query);
-				mysqli_stmt_bind_param($stmt, 'ssss', $email, $lname,$fname, $password);
+				mysqli_stmt_bind_param($stmt, 'ssss', $email, $fname,$lname, $password);
         			mysqli_stmt_execute($stmt);
         			$affected_rows = mysqli_stmt_affected_rows($stmt);
         			if($affected_rows == 1){
@@ -98,7 +97,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					mysqli_close($connected);
 				}
 			}
-		}
+			//If there is missing data, echo back what is missing and needs to be entered.
+			else{
+				echo 'Following data is missing:<br />';
+        			foreach($missingData as $missing){
+            			echo "$missing<br/>";
+				}
+			}
+	?>
+	
+	<?php
+		//if user tries to use the login page. Parses to check for both email, and password entered correctly after login button is pressed.
+		if (isset($_POST['login'])){
+			
+		}		
 	?>
 	
 	
@@ -152,11 +164,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         	<h3>Existing Customers</h3>
         	<p>Sign in with the form below.</p>
         	<form action="hello" method="get" id="member">
-                	<input name="Domain" type="text" value="Username" class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
-                    <input name="Domain" type="password" value="Password" class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+                	<input name="Domain" type="text" value="Username" name=email class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
+                    <input name="Domain" type="password" value="Password" name=password class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
                  </form>
                  <p class="note">If you forgot your password just enter your email and click <a href="#">here</a></p>
-                    <div class="buttons"><div><button class="grey">Sign In</button></div></div>
+                    <div class="buttons"><div><button type="login" name="login">Sign In</button></div></div>
                     </div>
     	<div class="register_account">
     		<h3>Register New Account</h3>
