@@ -104,6 +104,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             			echo "$missing<br/>";
 				}
 			}
+		}
 	?>
 	
 	<?php
@@ -163,33 +164,34 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     	 <div class="login_panel">
         	<h3>Existing Customers</h3>
         	<p>Sign in with the form below.</p>
-        	<form action="hello" method="get" id="member">
+		 <form id="form1" name="form1" method="post" action="customer_login.php">
+        	<form action="login.php" method="post" id="login1" name="login1">
                 	<input name="Domain" type="text" value="Username" name=email class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
                     <input name="Domain" type="password" value="Password" name=password class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
-                 </form>
-                 <p class="note">If you forgot your password just enter your email and click <a href="#">here</a></p>
-                    <div class="buttons"><div><button type="login" name="login">Sign In</button></div></div>
+				<div class="buttons"><div><button type="login" name="login">Sign In</button></div></div>
+          </form>
+          <p class="note">If you forgot your password just enter your email and click <a href="#">here</a></p>
+                    
                     </div>
     	<div class="register_account">
     		<h3>Register New Account</h3>
-    		<form>
-		   			 <table>
-		   				<tbody><tr><td><div><input type="text" name="firstName" value="firstName" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'First Name';}" ></div>
+    		<form action="login.php" method="post" id="register1" name="register1">
+		   	<table>
+		   		<tbody><tr><td><div><input type="text" name="firstName" value="firstName" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'First Name';}" ></div>
 		    			<div><input type="text" name="lastName" value="lastName" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Last Name';}"></div>
 		    			<div><input type="text" name="email" value="E-Mail" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'E-Mail';}"></div>
 		    			<div><input type="text" name="password" value="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"></div>
 		    			 </td>
-		    			<td>
-		           
-		    	</td>
-		    </tr> 
-		    </tbody></table> 
+		    			<td></td>
+		    		</tr> 
+		    		</tbody>
+			</table> 
 			<!--
 		   <div class="search">< div><button class="grey">Create Account</button></div></div> -->
-			<div class="search"></div><button type="register" name="register" >Create Account</button></div></div>
+			<div class="search"></div><button type="register" value='register' name="register" >Create Account</button></div></div>
 		    <p class="terms">By clicking 'Create Account' you agree to the <a href="#">Terms &amp; Conditions</a>.</p>
 		    <div class="clear"></div>
-		    </form>
+		</form>
     	</div>  	
        <div class="clear"></div>
     </div>
