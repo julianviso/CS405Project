@@ -33,7 +33,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		if (isset($_POST['register'])){
 			$missingData = array();
 
-			if (isset($_POST['firstName']))
+			if (empty(isset($_POST['firstName'])))
 			{
 				//if first name is not found when register button gets clicked add to the array the information that's missing
 				//Else remove any whitespace that the user may have entered in the first name
@@ -45,7 +45,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				$fname = trim($_POST['firstName']);
 			}
 
-			if (isset($_POST['lastName']))
+			if (empty(isset($_POST['lastName'])))
 			{
 				//if last name is not found when register button gets clicked add to the array the information that's missing
 				//Else remove any whitespace that the user may have entered in the last name
@@ -56,7 +56,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				$lname = trim($_POST['lastName']);
 			}
 
-			if (isset($_POST['email']))
+			if (empty(isset($_POST['email'])))
 			{
 				echo "Missing email!";
 				$missingData[] = 'email'; 
@@ -66,7 +66,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				$custEmail = trim($_POST['email']);
 			}
 
-			if (isset($_POST['password']))
+			if (isset(empty($_POST['password'])))
 			{
 				echo "Missing password";
 				$missingData[] = 'password';
@@ -110,6 +110,63 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<?php
 		//if user tries to use the login page. Parses to check for both email, and password entered correctly after login button is pressed.
 		if (isset($_POST['login'])){
+			$missingData = array();
+			$email = preg_replace('#[^A-Za-z0-9]#i', '', $_POST["email"]); // filter everything but numbers and letters
+    			$password = preg_replace('#[^A-Za-z0-9]#i', '', $_POST["password"]);
+			
+			if (empty(isset($_POST['email'])))
+			{
+				echo "Missing email!";
+				$missingData[] = 'email'; 
+			} 
+			else
+			{
+				$custEmail = trim($_POST['email']);
+			}
+			if (empty(isset($_POST['password'])))
+			{
+				echo "Missing password";
+				$missingData[] = 'password';
+			}
+			else{
+				$pass = trim($_POST['password']);
+			}
+			if (empty($missingData))
+			{
+				require_once('web/php/mysqli_connect.php');
+				$query= "SELECT fname 
+						FROM Customers 
+						WHERE email = ? AND password = ? LIMIT 1";
+				$stmt = mysqli_prepare($connected, $query);
+				mysqli_stmt_bind_param($stmt, 'is', $email, $password);
+				mysqli_stmt_execute($stmt);
+				mysqli_stmt_bind_result($stmt, $fname);
+				mysqli_stmt_store_result($stmt);
+				//determines whether or not user exists in database.
+				//Returns a 1 if true, 0 otherwise.
+				$userExists = mysqli_stmt_num_rows($stmt); 
+				if (userExists == 0)
+				{
+					mysqli_stmt_fetch($stmt);
+					$_session["email"] = $email;
+					$_session["password"] = $password;
+					$_session["fname"] = $fname;
+					
+					mysqli_stmt_close($stmt);
+	 				mysqli_close($conn);
+					exit();
+				}
+				else{
+					echo 'Incorrect login. <a href="login.php">Go Back?</a>';
+					exit();
+				}
+			}
+			else{
+				echo 'Following data is missing:<br />';
+        			foreach($missingData as $missing){
+            			echo "$missing<br/>";
+				}
+			}
 			
 		}		
 	?>
@@ -164,7 +221,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     	 <div class="login_panel">
         	<h3>Existing Customers</h3>
         	<p>Sign in with the form below.</p>
-		 <form id="form1" name="form1" method="post" action="customer_login.php">
         	<form action="login.php" method="post" id="login1" name="login1">
                 	<input name="Domain" type="text" value="Username" name=email class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
                     <input name="Domain" type="password" value="Password" name=password class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
