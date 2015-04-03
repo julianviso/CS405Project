@@ -5,8 +5,10 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
     <?php
-        include "components/header_top.html";
+        require "sql/serverinfo.php";
+        include "components/header_top.php";
         include "components/header_menu.html";
+        include "debugging.php";
     ?>
 
 <!DOCTYPE HTML>

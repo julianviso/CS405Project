@@ -1,3 +1,4 @@
+use bjpote2;
 CREATE TABLE Customers(
     email VARCHAR(30) NOT NULL,
 	fname VARCHAR(30) NOT NULL,
@@ -28,10 +29,8 @@ CREATE TABLE Orders(
 	status INTEGER,
 	shippingDate DATE,
 	orderDate DATE NOT NULL,
+	total INTEGER NOT NULL,
 	PRIMARY KEY (order_id),
-	CHECK(EXISTS(SELECT * 
-		FROM Staff 
-		WHERE Orders.status = Staff.sid))
 );
 
 CREATE TABLE Products(

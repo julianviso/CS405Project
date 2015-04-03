@@ -27,7 +27,7 @@
 
         
         <?php
-            include "components/header_top.html";
+            include "components/header_top.php";
             include "components/header_menu.html";
         ?>
         

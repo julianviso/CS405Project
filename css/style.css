@@ -126,7 +126,8 @@ body{
 	width: 7px;
 	height: 5px;
 	display: block;
-	background: url(../images/header_arrow.png) 0 0 no-repeat;
+	/*background: url(../images/header_arrow.png) 0 0 no-repeat;*/
+	/*background: url(../images/header_arrow.png) 0 0 no-repeat;*/
 	position: absolute;
 	right: 11px;
 	top: 16px;
@@ -164,6 +165,25 @@ body{
 .login span a img{
 	padding-top:8px;
 }
+
+/*** Manage cart ***/
+ .manage_cart table{
+ 	border collapse: collapse;
+	border: solid thin;
+ }
+.manage_cart td, tr{
+    border: 1px solid #999;
+    padding: 0.2rem;
+    text-align: right;	
+}
+ .manage_cart form input[type="text"]{
+	width:95%;
+}
+.manage_cart form select{
+	width:100%;
+}
+
+
 /*** Login ***/
 .register_account h3,.login_panel h3{
 	font-size: 22px;

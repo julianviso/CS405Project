@@ -31,7 +31,7 @@ Postconditions:
 
         <?php
             require "sql/serverinfo.php";
-            include "components/header_top.html";
+            include "components/header_top.php";
             include "components/header_menu.html"; 
         ?>
     </head>
@@ -82,7 +82,9 @@ Postconditions:
                     <td>'.$row['orderDate'].'</td>
                     <td>'.$row['shippingDate'].'</td>
                     <td>'.$row['total'].'</td>
+                    <td>Details</td>
                 </tr>';
+            //TODO: add a link at the end of each row for order details.
         }
         echo '</table>';
     } else {

@@ -6,7 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 
 <?php
-    include "header_top.html";
+    include "header_top.php";
     include "header_menu.html";
 ?>
 
