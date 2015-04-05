@@ -66,7 +66,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				$custEmail = trim($_POST['email']);
 			}
 
-			if (isset(empty($_POST['password'])))
+			if (empty(isset($_POST['password'])))
 			{
 				echo "Missing password";
 				$missingData[] = 'password';
