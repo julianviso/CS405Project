@@ -24,9 +24,12 @@ Purpose:
                         <span class="no_product">
 <?php
     session_start();
-    //$_SESSION["Cart_qty"] = 1;
-    if(isset($_SESSION["Cart_qty"])){
-        echo '<b>'.$_SESSION["Cart_qty"].'</b>: Items';
+    if(isset($_SESSION["cart_items"])){
+        $q = 0;
+        foreach($_SESSION["cart_items"] as $item){
+            $q += $item["qty"];
+        }
+        echo '<b>'.$q.'</b>: Items';
     }
     else{
         echo '(empty)';   

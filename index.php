@@ -4,12 +4,7 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
-    <?php
-        require "sql/serverinfo.php";
-        include "components/header_top.php";
-        include "components/header_menu.html";
-        include "debugging.php";
-    ?>
+
 
 <!DOCTYPE HTML>
 <head>
@@ -32,10 +27,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     $('#dc_mega-menu-orange').dcMegaMenu({rowItems:'4',speed:'fast',effect:'fade'});
   });
 </script>
+    
+
 </head>
 
 <body>
 
+    <?php
+        require "sql/serverinfo.php";
+
+        include "debugging.php";
+
+        include "components/header_top.php";
+        include "components/header_menu.html";
+    ?>
+    
   <div class="wrap">
 
 	<div class="header_bottom">

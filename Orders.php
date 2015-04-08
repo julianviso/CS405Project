@@ -43,27 +43,33 @@ Postconditions:
     -->
     <?php
         session_start();
+        //TODO: once login is working, change this
+        $_SESSION["email"] = "bpotere@gmail.com";
         if (!isset($_SESSION["email"])) {
             //header("location: PleaseLogin.php");
             //exit();
         }
 
+    //Connect to the database
+    $link = mysqli_connect($host, $login, $password, $dbname);
+
     //Query for the Orders corresponding to this session user
     $query_string = 
-        "SELECT DISTINCT order_id, status, shippingDate, orderDate,
+        "SELECT *
         FROM Orders
         WHERE email = '".$_SESSION['email']."'";
 
-    //Connect to the database
-    $connection = mysqli_connect($host, $login, $password, $dbname);
     //Get the query
-    $db_stmnt = @mysqli_query($connection, $query_string);
+    $response = mysqli_query($link, $query_string);
 
-    if($response){
+    while($row = mysqli_fetch_array($response)){
         //Table header
+        $order_id = $row["order_id"];
+        echo "<h3>ORDER # ".$order_id."</h3>";
         echo '<table>';
         echo
-            '<tr>
+            '<div class="order_table">
+            <tr>
                 <td align="center">ORDER</td>
                 <td align="center">SHIP STATUS</td>
                 <td align="center">DATE ORDERED</td>
@@ -71,26 +77,35 @@ Postconditions:
                 <td align="center">TOTAL</td>
             </tr>';
         
-        while ($this_row = mysqli_fetch_array($db_stmnt)){
+        echo
+            '<tr>
+                <td>'.$row['order_id'].'</td>
+                <td>'.$row['status'].'</td>
+                <td>'.$row['orderDate'].'</td>
+                <td>'.$row['shippingDate'].'</td>
+                <td>'.$row['total'].'</td>
+                <td>Details</td>
+            </tr>
+            </div>';
+        echo '</table><br/>';
+
+        /*
+        //Query for the Orders corresponding to this session user
+        $query_string = 
+            "SELECT *
+            FROM Orderlines
+            WHERE order_id = '".$_SESSION['email']."'";
+        
+        while ($this_row = mysqli_fetch_array($response)){
             $total = '0';
 
-            //Concatenation is done with . in php            
-            echo
-                '<tr>
-                    <td>'.$row['order_id'].'</td>
-                    <td>'.$row['status'].'</td>
-                    <td>'.$row['orderDate'].'</td>
-                    <td>'.$row['shippingDate'].'</td>
-                    <td>'.$row['total'].'</td>
-                    <td>Details</td>
-                </tr>';
+
             //TODO: add a link at the end of each row for order details.
-        }
-        echo '</table>';
-    } else {
+        }*/
+    } //else {
         //Handle empty orders, etc.
-        echo '<h3>You either have no orders, or query is malformed.</h3>';
-    } 
+        //echo '<h3>You either have no orders, or query is malformed.</h3>';
+    //} 
 
     mysqli_close($connection);
     include "components/footer.html";
