@@ -127,7 +127,7 @@ Postconditions:
                 $email = $_SESSION["email"];
                 
                 $created_order = false;
-                $thisOrder_id = -1;
+                $order_id = -1;
                 $order_total = 0;
 
                 //Connect to the database.
@@ -193,7 +193,7 @@ Postconditions:
                             //Create a new Order if for the first time
                             if (!$created_order){
                                 $created_order = true;
-                                $newOrderID = createOrder($link);
+                                $order_id = createOrder($link);
                             }
                             $newQty = $dbrow["qty"] - $qty;
                             if ($newQty < 0){
@@ -223,6 +223,17 @@ Postconditions:
                             $result = mysqli_query($link, $query);
                             $dbrow = mysqli_fetch_array($result);
                             $order_total = $order_total + (int)($dbrow["price"]) * $qty;
+                            
+                            //Update the total in database
+                            $query =    "UPDATE Orders
+                                        SET total='$order_total'
+                                        WHERE order_id='$order_id'";
+                            $result = mysqli_query($link, $query);
+                            if (mysqli_error($link)){
+                                    echo $prod_id.'<br/>';
+                                    echo mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+
+                            }
                             //echo $order_total;
                             echo "<br/>";
                         }
@@ -231,16 +242,7 @@ Postconditions:
                 
                 }
                 print "<p>Total: ".$order_total."</p>";
-                //Update the total
-                $query =    "UPDATE Orders
-                            SET total='$order_total'
-                            WHERE order_id='$order_id'";
-                $result = mysqli_query($link, $query);
-                if (mysqli_error($link)){
-                        echo $prod_id.'<br/>';
-                        echo mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
-
-                }
+                
                 
                 
                 mysqli_close($link);
