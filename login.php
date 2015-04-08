@@ -25,6 +25,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     $('#dc_mega-menu-orange').dcMegaMenu({rowItems:'4',speed:'fast',effect:'fade'});
   });
 </script>
+    
+        <?php
+            require "sql/serverinfo.php";
+            include "components/header_top.php";
+            include "components/header_menu.html"; 
+        ?>
+    
 </head>
 <body>
 	
@@ -79,13 +86,26 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			//If there is no missing data in array put the data in the customers table and echo that the account was created.
 			if(empty($missingData))
 			{
-        			require_once('web/php/mysqli_connect.php');
-        			$query = "INSERT INTO customers (email, fname, lname, password) VALUES (?, ?, ?, ?)";
-				$stmt = mysqli_prepare($connected, $query);
-				mysqli_stmt_bind_param($stmt, 'ssss', $email, $fname,$lname, $password);
+        		//require_once('web/php/mysqli_connect.php');
+                $connected = mysqli_connect($conn, $login, $password, $dbname);
+        		$query = "INSERT INTO Customers values 
+                    ('$custEmail', '$fname', 
+                     '$lname', '$custPassword')";
+				$result = mysqli_query($connected, $query);
+				if (mysqli_error($link)){
+                        echo $prod_id.'<br/>';
+                        echo mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+                }
+                else {
+                        echo "WELCOME!  Created your account successfully!";
+                }
+                mysqli_close($connected);
+                
+                /**
+                mysqli_stmt_bind_param($stmt, 'ssss', $email, $fname,$lname, $password);
         			mysqli_stmt_execute($stmt);
         			$affected_rows = mysqli_stmt_affected_rows($stmt);
-        			if($affected_rows == 1){
+        		if($affected_rows == 1){
             			echo 'Account Created';
             			mysqli_stmt_close($stmt);
             			mysqli_close($connected);
@@ -96,43 +116,45 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					mysqli_stmt_close($stmt);
 					mysqli_close($connected);
 				}
+                */
 			}
 			//If there is missing data, echo back what is missing and needs to be entered.
-			else{
-				echo 'Following data is missing:<br />';
-        			foreach($missingData as $missing){
-            			echo "$missing<br/>";
-				}
-			}
+			//else{
+				//echo 'Following data is missing:<br />';
+        		//	foreach($missingData as $missing){
+            	//		echo "$missing<br/>";
+				//}
+	//		}
 		}
 	?>
 	
 	<?php
 		//if user tries to use the login page. Parses to check for both email, and password entered correctly after login button is pressed.
 		if (isset($_POST['login'])){
-			$missingData = array();
-			$email = preg_replace('#[^A-Za-z0-9]#i', '', $_POST["email"]); // filter everything but numbers and letters
-    			$password = preg_replace('#[^A-Za-z0-9]#i', '', $_POST["password"]);
+			$missingData = false;
+			//$email = preg_replace('#[^A-Za-z0-9]#i', '', $_POST["email"]); // filter everything but numbers and letters
+            //$password = preg_replace('#[^A-Za-z0-9]#i', '', $_POST["password"]);
 			
-			if (empty(isset($_POST['email'])))
+			if (!(isset($_POST['email'])))
 			{
 				echo "Missing email!";
-				$missingData[] = 'email'; 
+				$missingData = true; 
 			} 
 			else
 			{
 				$custEmail = trim($_POST['email']);
 			}
-			if (empty(isset($_POST['password'])))
+			if (!(isset($_POST['password'])))
 			{
 				echo "Missing password";
-				$missingData[] = 'password';
+				$missingData = true;
 			}
 			else{
 				$pass = trim($_POST['password']);
 			}
-			if (empty($missingData))
+			if (!$missingData)
 			{
+                /*
 				require_once('web/php/mysqli_connect.php');
 				$query= "SELECT fname 
 						FROM Customers 
@@ -142,22 +164,44 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				mysqli_stmt_execute($stmt);
 				mysqli_stmt_bind_result($stmt, $fname);
 				mysqli_stmt_store_result($stmt);
-				//determines whether or not user exists in database.
+                */
+                $connected = mysqli_connect($conn, $login, $password, $dbname);
+        		$query = "SELECT DISTINCT * 
+                          FROM Customers
+                          WHERE email='$custEmail' 
+                           AND password='$pass'";
+				$result = mysqli_query($connected, $query);
+                
+				if (mysqli_error($link)){
+                    echo $prod_id.'<br/>';
+                    echo mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+                }
+				//Determine if user exists in database.
+                $row_nums = mysqli_num_rows($result);
+                $userExists = $row_nums;
+                
+                //echo "Got ".$row_nums." from db table<br/>";
 				//Returns a 1 if true, 0 otherwise.
-				$userExists = mysqli_stmt_num_rows($stmt); 
-				if (userExists == 0)
+				//$userExists = mysqli_stmt_num_rows($stmt); 
+				if ($row_nums != 0) 
 				{
 					mysqli_stmt_fetch($stmt);
-					$_session["email"] = $email;
-					$_session["password"] = $password;
-					$_session["fname"] = $fname;
-					
-					mysqli_stmt_close($stmt);
-	 				mysqli_close($conn);
+					$_SESSION["email"] = $custEmail;
+					$_SESSION["password"] = $pass;
+                    
+                    echo '<h3>WELCOME '.$_SESSION["email"].'!</h3><br/>';
+					//mysqli_stmt_close($stmt);
+	 				mysqli_close($connected);
+                    
+                    include "components/footer.html";
+                    //THE FILE IS DONE HERE -- NO MORE EXECUTION
 					exit();
 				}
 				else{
-					echo 'Incorrect login. <a href="login.php">Go Back?</a>';
+					echo '<h3>Incorrect login. <a href="login.php">Go Back?</a></h3>';
+                    include "components/footer.html";
+                    //ANOTHER POSSIBLE EXIT HERE
+                    //NO MORE EXECUTION
 					exit();
 				}
 			}
@@ -172,63 +216,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	?>
 	
 	
-  <div class="wrap">
-	<div class="header">
-		<div class="header_top">
-			<div class="logo">
-				<a href="index.html"><img src="images/logo.png" alt="" /></a>
-			</div>
-			  <div class="header_top_right">
-			    <div class="search_box">
-				    <form>
-				    	<input type="text" value="Search for Products" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search for Products';}"><input type="submit" value="SEARCH">
-				    </form>
-			    </div>
-			    <div class="shopping_cart">
-					<div class="cart">
-						<a href="#" title="View my shopping cart" rel="nofollow">
-							<strong class="opencart"> </strong>
-								<span class="cart_title">Cart</span>
-									<span class="no_product">(empty)</span>
-							</a>
-						</div>
-
-			      </div>
-
-           <div class="login">
-		   	   <span><a href="login.html"><img src="images/login.png" alt="" title="login"/></a></span>
-		   </div>
-
-		 <div class="clear"></div>
-	   </div>
-	 <div class="clear"></div>
-   </div>
-        
-	<div class="menu">
-	  <ul id="dc_mega-menu-orange" class="dc_mm-orange">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="products.html">Products</a></li>
-          <li><a href="promotions.html">Promotions</a></li>
-          <li><a href="faq.html">FAQS</a></li>
-          <li><a href="contact.html">Contact</a> </li>
-          <div class="clear"></div>
-      </ul>
-    </div>
-
- </div>
+<div class="wrap">
  <div class="main">
     <div class="content">
     	 <div class="login_panel">
         	<h3>Existing Customers</h3>
         	<p>Sign in with the form below.</p>
-        	<form action="login.php" method="post" id="login1" name="login1">
-                	<input name="Domain" type="text" value="Username" name=email class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
-                    <input name="Domain" type="password" value="Password" name=password class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+        	<form action="login.php" method="post" id="login" name="login">
+                	<input type="text" value="Username (email)" name=email class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
+                    <input type="password" value="Password" name=password class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
 				<div class="buttons"><div><button type="login" name="login">Sign In</button></div></div>
           </form>
           <p class="note">If you forgot your password just enter your email and click <a href="#">here</a></p>
                     
-                    </div>
+        </div>
+        
+        
     	<div class="register_account">
     		<h3>Register New Account</h3>
     		<form action="login.php" method="post" id="register1" name="register1">
@@ -253,6 +256,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
  </div>
 </div>
+
+<?php
+    include "components/footer.html";
+?>
 
 </body>
 </html>

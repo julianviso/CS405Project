@@ -40,7 +40,7 @@ Purpose:
             </div>
         </div>
         <div class="login">
-          <span><a href="login.html"><img src="images/login.png" alt="" title="login"/></a></span>
+          <span><a href="login.php"><img src="images/login.png" alt="" title="login"/></a></span>
         </div>
         <div class="clear"></div>
    </div>
