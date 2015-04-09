@@ -20,8 +20,11 @@
 </script>
     
         <?php
-            require "../sql/serverinfo.php";
-            include "../components/staffHeader_menu.html"; 
+          require "../sql/serverinfo.php";
+		//if manager
+		include "../components/managerHeader_menu.html";
+		//else if normal employee
+          include "../components/staffHeader_menu.html"; 
         ?>
     
 </head>
