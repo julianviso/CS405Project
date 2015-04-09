@@ -18,7 +18,6 @@ Purpose:
         <div class="shopping_cart">
             <div class="cart">
                 <a href="Purchase.php" title="View my shopping cart">
-                <a href="Purchase.php" title="View my shopping cart">
                     <strong class="opencart"> </strong>
                         <span class="cart_title">Cart</span>
                         <span class="no_product">
@@ -39,9 +38,22 @@ Purpose:
                 </a>
             </div>
         </div>
-        <div class="login">
-          <span><a href="login.php"><img src="images/login.png" alt="" title="login"/></a></span>
-        </div>
+<?php
+        if(!isset($_SESSION["email"])){
+            echo '<div class="login">
+              <span><a href="login.php"><img src="images/login.png" alt="" title="login"/></a></span>
+              </div>';
+        }
+        else {
+            echo '<div class="logout">
+            <span><a href="logout.php">
+                <img src="images/logout.png" alt="" title="logout"/></a></span>
+            <span class=\"email\">'.$_SESSION["email"].'</span>
+        </div>';
+
+        }
+?>
+        
         <div class="clear"></div>
    </div>
    <div class="clear"></div>

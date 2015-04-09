@@ -127,7 +127,6 @@ body{
 	height: 5px;
 	display: block;
 	/*background: url(../images/header_arrow.png) 0 0 no-repeat;*/
-	/*background: url(../images/header_arrow.png) 0 0 no-repeat;*/
 	position: absolute;
 	right: 11px;
 	top: 16px;
@@ -162,45 +161,14 @@ body{
 	box-sizing: border-box;
 	background: url(../images/gradient_light-1.png) 0 0 repeat-x;
 }
-.logout{
-    float:left;
-	margin-left:10px;
-    margin-right:10px
-	height: 38px;
-	display: block;
-	border: 1px solid #CECECE;
-	text-align: center;
-    font-size:13px;
-	font-weight:bold;
-	color: #4F4F4F;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	background: url(../images/gradient_light-1.png) 0 0 repeat-x;
-}
-.logout span a img{
-    padding-top:8px;
-    padding-bottom:8px;
-}
-.logout span.email{
-    font-size:13px;
-	font-weight:bold;
-	color: #4F4F4F;
-}
 .login span a img{
 	padding-top:8px;
 }
-
-/*** Manage cart ***/
- .manage_cart table{
- 	border collapse: collapse;
-	border: solid thin;
+		/*** Login ***/
+ .manage_cart table, td{
+ 	width:100%;
+	border: 1px solid black;
  }
-.manage_cart td, tr{
-    border: 1px solid #999;
-    padding: 0.2rem;
-    text-align: right;	
-}
  .manage_cart form input[type="text"]{
 	width:95%;
 }
@@ -1497,7 +1465,7 @@ p.note{
     .shopping_cart {
     	width:170px;
     }
-    .shopping_cart,.currencies, .languages{
+    .shopping_cart,.currencies, .languages,.login{
     	margin-left:5px;
     }
     .wrapper-dropdown {
@@ -1878,10 +1846,6 @@ p.terms {
     	margin-left:5px;
     	margin-top:8px;
     }
-    .logout{
-        margin-left:5px;
-        margin-top:8px;
-    }
     .list_2_of_1 .button a {
     	padding:5px 10px;
     }
@@ -2136,6 +2100,10 @@ p.terms {
     	margin-left:5px;
     	margin-top:8px;
     	width:55px;
+    }
+   .login{
+    	margin-left:5px;
+    	margin-top:8px;
     }
     .list_2_of_1 .button a {
     	padding:5px 10px;
@@ -2399,154 +2367,6 @@ p.terms {
 		padding:2.5%;
 	}
 }
-/*** Orders ***/
-/*** Uses this zebra style table ***/
-.orders .zebra td, .orders .zebra th {
-    padding: 10px;
-    border-bottom: 1px solid #f2f2f2;    
-}
-
-.orders .zebra tbody tr:nth-child(even) {
-    background: #f5f5f5;
-    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset; 
-    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;  
-    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;        
-}
-
-.orders .zebra th {
-    text-align: left;
-    text-shadow: 0 1px 0 rgba(255,255,255,.5); 
-    border-bottom: 1px solid #ccc;
-    background-color: #eee;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#eee));
-    background-image: -webkit-linear-gradient(top, #f5f5f5, #eee);
-    background-image:    -moz-linear-gradient(top, #f5f5f5, #eee);
-    background-image:     -ms-linear-gradient(top, #f5f5f5, #eee);
-    background-image:      -o-linear-gradient(top, #f5f5f5, #eee); 
-    background-image:         linear-gradient(top, #f5f5f5, #eee);
-}
-
-.orders .zebra th:first-child {
-    -moz-border-radius: 6px 0 0 0;
-    -webkit-border-radius: 6px 0 0 0;
-    border-radius: 6px 0 0 0;  
-}
-
-.orders .zebra th:last-child {
-    -moz-border-radius: 0 6px 0 0;
-    -webkit-border-radius: 0 6px 0 0;
-    border-radius: 0 6px 0 0;
-}
-
-.orders .zebra th:only-child{
-    -moz-border-radius: 6px 6px 0 0;
-    -webkit-border-radius: 6px 6px 0 0;
-    border-radius: 6px 6px 0 0;
-}
-
-.orders .zebra tfoot td {
-    border-bottom: 0;
-    border-top: 1px solid #fff;
-    background-color: #f1f1f1;  
-}
-
-.orders .zebra tfoot td:first-child {
-    -moz-border-radius: 0 0 0 6px;
-    -webkit-border-radius: 0 0 0 6px;
-    border-radius: 0 0 0 6px;
-}
-
-.orders .zebra tfoot td:last-child {
-    -moz-border-radius: 0 0 6px 0;
-    -webkit-border-radius: 0 0 6px 0;
-    border-radius: 0 0 6px 0;
-}
-
-.orders .zebra tfoot td:only-child{
-    -moz-border-radius: 0 0 6px 6px;
-    -webkit-border-radius: 0 0 6px 6px
-    border-radius: 0 0 6px 6px
-}
-/*** End Orders ***/
-
-/*** Orderlines ***/
-.orderlines .bordered {
-    border: solid #ccc 1px;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    border-radius: 6px;
-    -webkit-box-shadow: 0 1px 1px #ccc; 
-    -moz-box-shadow: 0 1px 1px #ccc; 
-    box-shadow: 0 1px 1px #ccc;         
-}
-
-.orderlines .bordered tr:hover {
-    background: #fbf8e9;
-    -o-transition: all 0.1s ease-in-out;
-    -webkit-transition: all 0.1s ease-in-out;
-    -moz-transition: all 0.1s ease-in-out;
-    -ms-transition: all 0.1s ease-in-out;
-    transition: all 0.1s ease-in-out;     
-}    
-    
-.orderlines .bordered td, .bordered th {
-    border-left: 1px solid #ccc;
-    border-top: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;    
-}
-
-.orderlines .bordered th {
-    background-color: #dce9f9;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
-    background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
-    background-image:    -moz-linear-gradient(top, #ebf3fc, #dce9f9);
-    background-image:     -ms-linear-gradient(top, #ebf3fc, #dce9f9);
-    background-image:      -o-linear-gradient(top, #ebf3fc, #dce9f9);
-    background-image:         linear-gradient(top, #ebf3fc, #dce9f9);
-    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset; 
-    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;  
-    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;        
-    border-top: none;
-    text-shadow: 0 1px 0 rgba(255,255,255,.5); 
-}
-
-.orderlines .bordered td:first-child, .bordered th:first-child {
-    border-left: none;
-}
-
-.orderlines .bordered th:first-child {
-    -moz-border-radius: 6px 0 0 0;
-    -webkit-border-radius: 6px 0 0 0;
-    border-radius: 6px 0 0 0;
-}
-
-.orderlines .bordered th:last-child {
-    -moz-border-radius: 0 6px 0 0;
-    -webkit-border-radius: 0 6px 0 0;
-    border-radius: 0 6px 0 0;
-}
-
-.orderlines .bordered th:only-child{
-    -moz-border-radius: 6px 6px 0 0;
-    -webkit-border-radius: 6px 6px 0 0;
-    border-radius: 6px 6px 0 0;
-}
-
-.orderlines .bordered tr:last-child td:first-child {
-    -moz-border-radius: 0 0 0 6px;
-    -webkit-border-radius: 0 0 0 6px;
-    border-radius: 0 0 0 6px;
-}
-
-.orderlines .bordered tr:last-child td:last-child {
-    -moz-border-radius: 0 0 6px 0;
-    -webkit-border-radius: 0 0 6px 0;
-    border-radius: 0 0 6px 0;
-}
-
-/*** End Orderlines ***/
-
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
 @media only screen and (max-width: 480px) {
 	.cont-desc{ 
