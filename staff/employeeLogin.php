@@ -21,7 +21,7 @@
     
         <?php
             require "../sql/serverinfo.php";
-            include "../components/header_top.php";
+            //include "../components/header_top.php";
             include "../components/header_menu.html"; 
         ?>
     
@@ -42,23 +42,38 @@
           session_start(); //start new session
           $sid = preg_replace('#[A-Za-z0-9]#i', '', $_POST["sid"]); //filter everything except numbers, and letters
           $password = preg_replace('#[A-Za-z0-9]#i', '', $_POST["password"]); //filter everything except numbers, and letters
-          require_once('../php/mysqli_connect.php');
-          $queryManager = "SELECT manager
-                              FROM Staff
-                              WHERE manager = 1 LIMIT 1";
-          $stmt = mysqli_prepare($connected, $queryManager);
-          
-     }
-     else{
-          echo 'Login incorrect. <a href="../index.php">Click to go back to home page</a>';    
-     }
+          //require_once('../php/mysqli_connect.php');
+         $connected = mysqli_connect($conn, $login, $password, $dbname);
+	    $query = "SELECT DISTINCT * 
+                   FROM Staff
+                   WHERE sid='$sid' AND password='$password'";
+		$result = mysqli_query($connected, $query);
+	    //Determine if user exists in database.
+         $row_nums = mysqli_num_rows($result);
+         $userExists = $row_nums; 
+		if ($row_nums != 0) 
+		{
+			mysqli_stmt_fetch($stmt);
+			$_SESSION["sid"] = $sid;
+			$_SESSION["password"] = $password;
+               echo '<h3>WELCOME '.$_SESSION["sid"].'!</h3><br/>';
+	 		mysqli_close($connected);          
+               include "../components/footer.html";
+			exit();
+		}
+		else{
+			echo '<h3>Incorrect login. <a href="login.php">Go Back?</a></h3>';
+               include "../components/footer.html";
+			exit();
+		}
+	} 
 ?>  
     
     <div class="login_panel">
         	<h3>Staff Login</h3>
         	<p>Sign in with the form below.</p>
         	<form action="employeelogin.php" method="post" id="login" name="login">
-                	<input type="text" value="sid(sid)" name=sid class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'sid';}">
+                	<input type="text" value="sid" name=sid class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'sid';}">
                     <input type="password" value="Password" name=password class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
 				<div class="buttons"><div><button type="login" name="login">Staff Log In</button></div></div>
           </form>   
