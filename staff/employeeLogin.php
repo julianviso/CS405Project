@@ -57,7 +57,8 @@
 
         $found = false;
         if ($row_nums != 0){
-            $found = true;   
+            $found = true;
+            $_SESSION["staff"] = 1;
         }
 
         $query = "SELECT DISTINCT *
