@@ -47,7 +47,7 @@ Purpose:
         else {
             echo '<div class="logout">
             <span><a href="logout.php">
-                <img src="images/logout.png" alt="" title="logout"/></a></span>
+                <img src="/images/logout.png" alt="" title="logout"/></a></span>
             <span class=\"email\">'.$_SESSION["email"].'</span>
         </div>';
 

@@ -19,6 +19,7 @@ CREATE TABLE Staff(
 	name VARCHAR(30) NOT NULL,
 	password VARCHAR(30) NOT NULL,
 	manager BOOLEAN NOT NULL DEFAULT 0,
+    email VARCHAR(30) NOT NULL,    
 	PRIMARY KEY (sid)
 );
 
