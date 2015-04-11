@@ -20,23 +20,19 @@
 </script>
     
         <?php
+            session_start();
             require "../sql/serverinfo.php";
-            //include "../components/header_top.php";
-            include "../components/header_menu.html"; 
+            if(isset($_SESSION["manager"]) && $_SESSION["manager"] == 1){
+            }
+            else{
+            }
         ?>
     
 </head>
 <body>
 
 <?php
-    session_start();
-    if (isset($_SESSION["employee"])){
-	   header("location: ../index.php");
-	   exit();
-    	}
-?>
-<?php
-     //check for employee login: needs sid and password
+    //check for employee login: needs sid and password
     if (isset($_POST["email"]) && isset($_POST["password"])){
         session_destroy(); //get rid of any current sessions running.
         session_start(); //start new session
@@ -59,6 +55,8 @@
         if ($row_nums != 0){
             $found = true;
             $_SESSION["staff"] = 1;
+            include "../components/staffHeader_menu.html";   
+
         }
 
         $query = "SELECT DISTINCT *
@@ -70,6 +68,8 @@
         if ($row_nums != 0){
             $found = true;
             $_SESSION["manager"] = 1;
+            include "../components/managerHeader_menu.html";
+
         }
 
         if ($found) 

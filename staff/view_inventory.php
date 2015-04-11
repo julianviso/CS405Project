@@ -57,10 +57,10 @@ Purpose:
             <div class="orderlines">
             <table class="bordered">
             <tr>
-                <td align="left">PRODUCT ID</td>
-                <td align="left">NAME</td>
-                <td align="left">PRICE</td>
-                <td align="left">QTY</td>
+                <th align="left">PRODUCT ID</td>
+                <th align="left">NAME</td>
+                <th align="left">PRICE</td>
+                <th align="left">QTY</td>
             </tr>';
         while($row = mysqli_fetch_array($response)){
             echo '

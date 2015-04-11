@@ -38,13 +38,12 @@ Postconditions:
             //Has all the functions for updating the cart
             include "cart_functions.php";
 
+            //Now checks to make sure a customer is logged in
             if (!isset($_SESSION["email"])) {
-                //header("location: PleaseLogin.php");
-                //exit();
+                header("location: PleaseLogin.php");
+                exit();
             }
 
-            //TODO: Change this later
-            $_SESSION["email"] = "bpotere@gmail.com";
 
 
         ?>
@@ -94,7 +93,7 @@ Postconditions:
                 mysqli_query ($link, 
                     "INSERT INTO Orders values
                     ('$thisOrder_id', '$email', 
-                     0, '$date', '$date', 0)
+                     0, null, '$date', 0)
                     ");
                 //mysql errors here
                 if (mysqli_error($link)){
@@ -174,13 +173,10 @@ Postconditions:
                     }
                     $row_nums = mysqli_num_rows($result);
                     if ($row_nums < 1){
-                        echo $row_nums;
                         echo 'Error: There is no product with ID number: '.$item["prod_id"].'<br/>';   
                     }
                     else {//Else this product ID does exist
-                        if ($result == null){
-                            echo "hello world2";
-                        }
+
                         //Should have just a single row here, no duplicates
                         $dbrow = mysqli_fetch_array($result);
                         //echo "qty: ";
@@ -202,20 +198,14 @@ Postconditions:
                             }
                             //echo $qty.'<br/>';
                             
-                            //Update the products table with the new qty of items
-                            $newQty = (string)$newQty;
-                            //echo $newQty.'<br />';
-                            $query =    'UPDATE Products
-                                        SET qty='.$newQty.' 
-                                        WHERE prod_id='.$str_prod_id;
-                            $result = mysqli_query($link, $query);
-                            
                             //Add this item to the Orderline table
                             $query =    "INSERT INTO Orderlines values
-                                        ('$newOrderID', '$prod_id', '$qty')
+                                        ('$order_id', '$prod_id', '$qty')
                             ";
                             $result = mysqli_query($link, $query);
-                            
+                            if (mysqli_error($link)){
+                                echo $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+                            }
                             //Accumulate the total so far
                             $query =    'SELECT * FROM Products 
                                          WHERE prod_id=
@@ -250,7 +240,7 @@ Postconditions:
             }
                         
             $error = makePurchases();
-            //empty_cart();
+            empty_cart();
             //echo "<br \>Something went wrong with processing your purchase.  Please <a href=\"Purchase.php\">try again</a>. <br \><br \>";
             echo "<a href='$host./Orders.php'><button>VIEW ALL ORDERS</button><a/>";
 
