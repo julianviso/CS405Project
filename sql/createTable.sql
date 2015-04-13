@@ -1,4 +1,4 @@
-use bjpote2;
+use julian;
 CREATE TABLE Customers(
     email VARCHAR(30) NOT NULL,
 	fname VARCHAR(30) NOT NULL,
