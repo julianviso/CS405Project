@@ -6,6 +6,7 @@
 <link href="../css/style.css" rel="stylesheet" type="text/css" media="all"/>
 <link href="../css/slider.css" rel="stylesheet" type="text/css" media="all"/>
 <link href="../css/menu.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="../bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Doppio+One' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Monda' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
@@ -39,7 +40,24 @@
 		$link = mysqli_connect($conn, $login, $password, $dbname);
 		$result = mysqli_query($link, $query);
 		if ($result){
-			echo '<tr><td align="center"><b>Name</b></td>';	
+			//this is ugly bootstrap it when project is closer to finished.
+			echo '<tr><td align="center"><b>name</b></td>
+			<td align="center"><b>prod_id</b></td>
+			<td align="center"><b>price</b></td>
+			<td align="center"><b>quantity (in stock)</b></td>
+			<td align="center"><b>discount</b></td>
+			<td align="center"><b>startDate</b></td>
+			<td align="center"><b>endDate</b></td></tr>';	
+			
+			//mysqli_fetch_array returns one row from the query
+			//while loop to get all the rows
+			while ($row = mysqli_fetch_array($result)){
+				echo '<tr><td align="center">' . $row['name'] . '</td>
+				<td align="center">' . $row['prod_id'] . '</td>
+				<td align="center">' . $row['price'] . '</td>
+				<td align="center">' . $row['qty'] . '</td>';
+				
+			}
 		}
 	?>
     
