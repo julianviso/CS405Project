@@ -20,15 +20,16 @@
 </script>
     
         <?php
-          require "../sql/serverinfo.php";
-		if($_SESSION["manager"] == 1){
-			//if employee is a manager
-			include "../components/managerHeader_menu.html";
-		}
-		else{
-			//else if normal employee
-          	include "../components/staffHeader_menu.html"; 
-		}
+            session_start();
+            require "../sql/serverinfo.php";
+            if($_SESSION["manager"] == 1){
+                //if employee is a manager
+                include "../components/managerHeader_menu.html";
+            }
+            else{
+                //else if normal employee
+                include "../components/staffHeader_menu.html"; 
+            }
 		?>
     
 </head>

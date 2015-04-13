@@ -11,9 +11,7 @@
         */
         function empty_cart(){
             $return_url = base64_decode($_GET["return_url"]); //return url
-            echo $_SESSION["cart_items"];
             unset($_SESSION["cart_items"]);
-            //$_SESSION["cart_items"] = array();
             $_SESSION["cart_qty"] = 0;
         }
 
