@@ -40,6 +40,7 @@ CREATE TABLE Products(
 	price FLOAT NOT NULL,
 	PRIMARY KEY (prod_id),
     qty INTEGER NOT NULL,
+    description VARCHAR(255),
 	CHECK (price > 0)
 );
 
