@@ -137,9 +137,6 @@ function getProduct($link){
         //Connect to the database
         $link = mysqli_connect($host, $login, $password, $dbname);
 
-
-
-
         
         if ($_SERVER["REQUEST_METHOD"] == "POST" 
             && isset($_POST["prod_id"])){
