@@ -117,22 +117,120 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="heading">
               <h3>Featured Products</h3>
             </div>
+<?php
+    /**
+     *  The purpose of the following section is to determine the
+     * total number of pages that need to be displayed, followed 
+     * by a small form menu to change the products that are 
+     * displayed.
+     *
+     * Preconditions:
+     *  The user may or may not have sent a POST request.
+     *  The number of possible pages to display may be required.
+     *
+     * Post-conditions:
+     *  The $_SESSION["total_pages"] has the total pages
+     * available for browsing.
+     *  The current page is displayed.
+     */
 
-            <div class="page-no">
-                <p>Result Pages:<ul>
-                    <li><a href="#">1</a></li>
+    //Get the total number of products
+    if (!isset($_SESSION["total_pages"])){
+        $link = mysqli_connect($host, $login, $password, $dbname);
+        
+        $query_string = 
+                "SELECT COUNT(*)
+                FROM Products";
+        $response = mysqli_query($link, $query_string);
+        $row = mysqli_fetch_array($response);
+        $total_pages = ceil((int)($row["COUNT(*)"])/4);
+        echo '<h3>'.$total_products.'</h3>';
+        if (mysqli_error($link)){
+            echo $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+        }
+        $_SESSION["total_pages"] = $total_products;
+        mysqli_close($link);
+    }
+
+    //Displaying page choice numbers, and form for getting the next four products.
+    echo    '<div class="page-no">
+                <form name="page_update" method="post" action="index.php">
+                <p>Result Pages:
+                    <ul>';
+
+                //If this is a POST request, display the requested page number
+                if(isset($_SERVER["REQUEST_METHOD"])
+                    && $_SERVER["REQUEST_METHOD"] == "POST"
+                    && isset($_POST["page"])){
+                    
+                    $current = -1;
+
+                    if (isset($_POST["next"])){
+                        $current = $_POST["page"];
+                        $current = $current + 1;
+                    }
+                    else if (isset($_POST["prev"])){
+                        $current = $_POST["page"];
+                        $current = $current - 1;
+                    }
+                    if ($current < 1){
+                        $current = 1;    
+                    }
+                    echo '<h3>'.$current.'</h3>';
+                    echo '<h3>'.$_POST["page"].'</h3>';
+                    echo '<input type="hidden" name="page" value="'.$current.'"></input>';
+                    echo '<li><input type="submit" name="prev" value="prev" /></li>';
+                    
+                    //Initializing start and stop conditions
+                    $i = $current - 3;
+                    if ($i < 1){
+                        $i = 1;   
+                    }
+                    $j = $current + 3;
+                    //Display the available list
+                    for (; $i < $j; $i = $i +1){
+                        if ($i == $current){
+                            echo '<li>'.$i.'</li>';   
+                        }
+                        else {
+                        echo '<li class="active"><a href ="#">'.$i.'</a></li>';
+                        }
+                    }
+                    
+                }
+                //Otherwise, just display the first page options
+                else {
+                    echo '<li><a href="#">1</a></li>
                     <li class="active"><a href="#">2</a></li>
-                    <li class="active"><a href="#">3</a></li>
-                    <li>[<a href="#"> Next>>></a >]</li>
-                    </ul>
+                    <li class="active"><a href="#">3</a></li>';
+                    echo '<input type="hidden" name="page" value="1" />';
+
+                }
+    echo            '<li><input type="submit" name = "next" value="Next" /></li>';
+    echo'           </ul>
                 </p>
+                </form>
             </div>
-            <div class="clear"></div>
+            <div class="clear"></div>';
+        
+?>
         </div>
      
      
         <div class="section group">
-<?php     
+<?php   
+        /**
+         * showproduct()
+         * Purpose:
+         *  Shows a single product from the given row.
+         * Preconditions:
+         *  $row is a mysql Products table row
+         *  $row["name"], $row["price"], and $row[descriptions"]
+         *  should be initialized.
+         * Post-conditions:
+         *  Displays a single product.
+         *  Has an add to cart button and details button.
+         */
         function showproduct($row){
             $name = $row["name"];
             $description = $row["description"];
@@ -154,6 +252,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 ';
         }
 
+        /**
+         *
+         *
+         */
         function getProduct($link, $prod_id){
             //Query for the Orders corresponding to this session user
             $query_string = 
@@ -176,13 +278,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
         //Connect to the database
         $link = mysqli_connect($host, $login, $password, $dbname);
-        $page_num = 1;
+        $page = 1;
         
         if (isset($_SERVER["REQUEST_METHOD"])
             && $_SERVER["REQUEST_METHOD"] == "POST"
-            && isset($_POST["page_num"])){
+            && isset($_POST["page"])){
                 
-            for($i=0; $i < 4; $i = $i +1){
+            $i = (int)($_POST["page"]);
+            $j = $i * 4 + 4;
+            for($i = $i * 4; $i <= $j; $i = $i +1){
+                $row = getProduct($link, $i);
                 showproduct($row);
             }        
         }
