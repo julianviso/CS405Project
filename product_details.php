@@ -71,17 +71,16 @@ function displayInfo($row){
             $closing_string;
     $current_url = base64_encode("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
     
-    //TODO: remove this
-    $row = array();
-    $row["prod_id"] = 5;
-    $row["name"] = "iPhone";
-    $row["price"] = 100.0;
-    $row["qty"] = 1;
-    $row["description"] = "5th generation.";
+    //$row = array();
+    //$row["prod_id"] = 5;
+    //$row["name"] = "iPhone";
+    //$row["price"] = 100.0;
+    //$row["qty"] = 1;
+    //$row["description"] = "5th generation.";
     
     echo $div_top_string;
     //echo $lorem_string1;
-    echo '<h2>'.$row["name"].'</h2>';
+    echo '<h1>'.$row["name"].'</h1>';
     //echo $price_string;
     echo '<div class="price">
             <p>Price: <span>'.$row["price"].'</span></p>
@@ -145,14 +144,15 @@ function getProduct($link){
         if ($_SERVER["REQUEST_METHOD"] == "POST" 
             && isset($_POST["prod_id"])){
             
-            getProduct();
-            displayInfo();
+            $row = getProduct($link);
+            displayInfo($row);
         }
         else{
             $row = array();
-            displayInfo($row);   
+            displayDummy($row);   
         }
 
+        mysqli_close($link);
     ?>
             
 

@@ -35,13 +35,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     <?php
         require "sql/serverinfo.php";
-
-        include "debugging.php";
-
         include "components/header_top.php";
         include "components/header_menu.html";
     ?>
-    
+<!--
   <div class="wrap">
 
 	<div class="header_bottom">
@@ -92,97 +89,115 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 		  <div class="clear"></div>
 		</div>
-			 <div class="header_bottom_right_images">
-		   <!-- FlexSlider -->
-              <section class="slider">
-				  <div class="flexslider">
-					<ul class="slides">
-						<li><img src="images/1.jpg" alt=""/></li>
-						<li><img src="images/2.jpg" alt=""/></li>
-						<li><img src="images/3.jpg" alt=""/></li>
-						<li><img src="images/4.jpg" alt=""/></li>
-				    </ul>
-				  </div>
-	      </section>
-<!-- FlexSlider -->
-	    </div>
+         <div class="header_bottom_right_images">
+-->
+        <!-- FlexSlider -->
+        <!--
+          <section class="slider">
+              <div class="flexslider">
+                <ul class="slides">
+                    <li><img src="images/1.jpg" alt=""/></li>
+                    <li><img src="images/2.jpg" alt=""/></li>
+                    <li><img src="images/3.jpg" alt=""/></li>
+                    <li><img src="images/4.jpg" alt=""/></li>
+                </ul>
+              </div>
+           </section>
+        -->
+        <!-- FlexSlider -->
+<!--
+       </div>
 	  <div class="clear"></div>
   </div>	
 </div>
+-->
  <div class="main">
     <div class="content">
-    	<div class="content_top">
-    		<div class="heading">
-    		<h3>Feature Products</h3>
-    		</div>
-    		<div class="sort">
-    		<p>Sort by:
-    			<select>
-    				<option>Lowest Price</option>
-    				<option>Highest Price</option>
-    				<option>Lowest Price</option>
-    				<option>Lowest Price</option>
-    				<option>Lowest Price</option>
-    				<option>In Stock</option>  				   				
-    			</select>
-    		</p>
-    		</div>
-    		<div class="show">
-    		<p>Show:
-    			<select>
-    				<option>4</option>
-    				<option>8</option>
-    				<option>12</option>
-    				<option>16</option>
-    				<option>20</option>
-    				<option>In Stock</option>  				   				
-    			</select>
-    		</p>
-    		</div>
-    		<div class="page-no">
-    			<p>Result Pages:<ul>
-    				<li><a href="#">1</a></li>
-    				<li class="active"><a href="#">2</a></li>
-    				<li><a href="#">3</a></li>
-    				<li>[<a href="#"> Next>>></a >]</li>
-    				</ul></p>
-    		</div>
-    		<div class="clear"></div>
-    	</div>
-	      <div class="section group">
-				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="preview-3.html"><img src="images/feature-pic1.png" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-					 <p><span class="strike">$528.22</span><span class="price">$505.22</span></p>
-					  <div class="button"><span><img src="images/cart.jpg" alt="" /><a href="preview-3.html" class="cart-button">Add to Cart</a></span> </div>
-				     <div class="button"><span><a href="preview-3.html" class="details">Details</a></span></div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview-2.html"><img src="images/feature-pic2.jpg" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-					 <p><span class="strike">$640.89</span><span class="price">$620.87</span></p>
-				     <div class="button"><span><img src="images/cart.jpg" alt="" /><a href="#" class="cart-button">Add to Cart</a></span> </div>
-				     <div class="button"><span><a href="#" class="details">Details</a></span></div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview-4.html"><img src="images/feature-pic3.jpg" alt="" /></a>
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-					 <p><span class="strike">$240.66</span><span class="price">$220.97</span></p>
-				      <div class="button"><span><img src="images/cart.jpg" alt="" /><a href="preview-6.html" class="cart-button">Add to Cart</a></span> </div>
-				     <div class="button"><span><a href="#" class="details">Details</a></span></div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<img src="images/feature-pic4.png" alt="" />
-					 <h2>Lorem Ipsum is simply </h2>
-					 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-					 <p><span class="strike">$436.22</span><span class="price">$415.54</span></p>
-				      <div class="button"><span><img src="images/cart.jpg" alt="" /><a href="#" class="cart-button">Add to Cart</a></span> </div>
-				     <div class="button"><span><a href="#" class="details">Details</a></span></div>
-				</div>
-			</div>
+        <div class="content_top">
+            <div class="heading">
+              <h3>Featured Products</h3>
+            </div>
+
+            <div class="page-no">
+                <p>Result Pages:<ul>
+                    <li><a href="#">1</a></li>
+                    <li class="active"><a href="#">2</a></li>
+                    <li class="active"><a href="#">3</a></li>
+                    <li>[<a href="#"> Next>>></a >]</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="clear"></div>
+        </div>
+     
+     
+        <div class="section group">
+<?php     
+        function showproduct($row){
+            $name = $row["name"];
+            $description = $row["description"];
+            $price = $row["price"];
+            echo '<div class="grid_1_of_4 images_1_of_4">
+                    <form name="product_listing" method="post" action="product_details.php">
+                    <img src="images/feature-pic1.png" alt="" />
+                    <h1>'.$name.'</h1>
+                    <p>'.$description.'</p>
+                    <p><span class="strike">$'.$price.'</span><span class="price">$'.$price.'</span></p>
+
+                    <div class="button"><span><img src="images/cart.jpg" alt="Add to cart" /><a href="preview-3.html" class="cart-button">Add to Cart</a></span> </div>
+                        <input type="hidden" name="prod_id" value="2" />
+                        <div class="button">
+                            <span><input type="submit" value="Details" /></span>
+                        </div>
+                    </form>
+                </div>
+                ';
+        }
+
+        function getProduct($link, $prod_id){
+            //Query for the Orders corresponding to this session user
+            $query_string = 
+                "SELECT *
+                FROM Products
+                WHERE prod_id = '$prod_id'";
+
+            //Get the query response
+            $response = mysqli_query($link, $query_string);
+            $num_rows = mysqli_num_rows($response);
+            if (mysqli_error($link)){
+                    echo $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+            }
+
+            //The array of the product row
+            $row = mysqli_fetch_array($response);
+
+            return $row;
+        }
+
+        //Connect to the database
+        $link = mysqli_connect($host, $login, $password, $dbname);
+        $page_num = 1;
+        
+        if (isset($_SERVER["REQUEST_METHOD"])
+            && $_SERVER["REQUEST_METHOD"] == "POST"
+            && isset($_POST["page_num"])){
+                
+            for($i=0; $i < 4; $i = $i +1){
+                showproduct($row);
+            }        
+        }
+        else{
+            
+            for($i=1; $i <= 4; $i = $i +1){
+                $row = getProduct($link, $i);
+                showproduct($row);
+            }
+        }
+        mysqli_close($link);
+        
+?>     
+            </div>
+            <!--
 			<div class="content_bottom">
     		<div class="heading">
     		<h3>New Products</h3>
@@ -221,6 +236,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     		</div>
     		<div class="clear"></div>
     	</div>
+            -->
+            <!--
 			<div class="section group">
 				<div class="grid_1_of_4 images_1_of_4">
 					 <a href="preview-3.html"><img src="images/new-pic1.jpg" alt="" /></a>
@@ -262,10 +279,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				      <div class="button"><span><img src="images/cart.jpg" alt="" /><a href="#" class="cart-button">Add to Cart</a></span> </div>
 				     <div class="button"><span><a href="#" class="details">Details</a></span></div>
 				</div>
-			</div>
+			</div> 
+            -->
     </div>
  </div>
-</div>
+
 
 </body>
 

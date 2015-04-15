@@ -43,8 +43,8 @@ Postconditions:
             include "components/header_menu.html";
 
             if (!isset($_SESSION["email"])) {
-                //header("location: PleaseLogin.php");
-                //exit();
+                header("location: PleaseLogin.php");
+                exit();
             }
 
         ?>
