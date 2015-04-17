@@ -5,10 +5,12 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 
+
+
 <?php
-    include "header_top.php";
-    include "header_menu.html";
-?>
+        include "components/header_top.php";
+        include "components/header_menu.html";
+    ?>
 
 <!DOCTYPE HTML>
 <head>
@@ -82,7 +84,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </div>
 
 <?php
-    include "footer.html";
+    include "components/footer.html";
 ?>
     
 </body>
