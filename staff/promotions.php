@@ -38,9 +38,9 @@
 <body>
 	
 	<?php
-		$require "../sql/serverinfo.php";
-		$query = "SELECT *
-				FROM Products";
+		//some bug in here
+		require "../sql/serverinfo.php";
+		$query = "SELECT *	FROM Products";
 		$link = mysqli_connect($conn, $login, $password, $dbname);
 		$result = mysqli_query($link, $query);
 		if ($result){
@@ -71,9 +71,9 @@
 				</form></td>';
 				//</tr>
 			}
-			else{
-				echo "some kind of error happened"	
-			}
+		}
+		else{
+			echo "some kind of error happened";
 		}
 	?>
 	
