@@ -22,7 +22,7 @@
     <?php
             session_start();
             require "../sql/serverinfo.php";
-            if($_SESSION["manager"] == 1){
+            if(isset($_SESSION["email"]) && $_SESSION["manager"] == 1){
                 //if employee is a manager
                 include "../components/managerHeader_menu.html";
             }
@@ -42,37 +42,45 @@
 	<?php
 		 function addPromotion(){
             global $conn, $login, $password, $dbname;
+             
             //Connect to the database.
             $err_message = null;
             $link = mysqli_connect($conn, $login, $password, $dbname);
             if (mysqli_error($link)){
                 $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
-                return $err_message;
             }
-            $discount = $_POST["discount"];
+            $discount = (float)($_POST["discount"]);
             $startDate = $_POST["startDate"];
             $endDate = $_POST["endDate"];
+            $prod_id = $_POST["prod_id"];
+             
             //Update the quantity
+            $email = $_SESSION["email"];
+            $query = "SELECT * FROM Managers WHERE email='$email'";
+            $result = mysqli_query($link, $query);
+            $row = mysqli_fetch_array($result);
+            if (mysqli_error($link)){
+                $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+            }
+
+            $managerOrdered = $row["mid"];
+            $managerOrdered = (int)$managerOrdered;
+            
+
             $query = "INSERT INTO Promotions VALUES
-                      (DEFAULT, '$discount', '$startDate', '$endDate', DEFAULT, DEFAULT)";
+                      (DEFAULT, '$discount', '$startDate', '$endDate', 1, '$prod_id')";
             $result = mysqli_query($link, $query);
             if (mysqli_error($link)){
                 $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
             }
-            /*
-            $result = mysqli_query($link, "
-                        SELECT AUTO_INCREMENT 
-                        FROM information_schema.tables
-                        WHERE table_name = 'Promotions' 
-                        AND table_schema = DATABASE()
-                    ");
-            $data = mysqli_fetch_array($result);
-            //Now give thisOrder_id the next num
-            $thisOrder_id = $data["AUTO_INCREMENT"];
-            return $thisOrder_id - 1;*/
+            
+            return $err_message;
             
         }
-		if(isset($_SERVER["REQUEST_METHOD"] =="POST" )){
+		if(isset($_SERVER["REQUEST_METHOD"])
+            && $_SERVER["REQUEST_METHOD"] == "POST"){
+            
+
 			addPromotion();
 			
 		}
@@ -137,7 +145,7 @@
 					<input type="text" name="discount" id="discount"/>
 					<input type="date" name="startDate"/>
 					<input type="date" name="endDate"/>
-					<input type="submit" name="discount" id="discount" value="Commit"/>
+					<input type="submit" name="Commit" id="Commit" value="Commit"/>
 				</form></td>';
 				echo '</tr>';
 			}

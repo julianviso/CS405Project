@@ -61,7 +61,7 @@ CREATE TABLE Promotions(
 	managerOrdered INTEGER NOT NULL,
 	prod_id INTEGER NOT NULL,
 	PRIMARY KEY (promo_id),
-	FOREIGN KEY (managerOrdered) REFERENCES Staff(sid),
+	FOREIGN KEY (managerOrdered) REFERENCES Managers(sid),
 	FOREIGN KEY (prod_id) REFERENCES Products(prod_id),
 	CHECK (discount < 1)
 );
