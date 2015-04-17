@@ -73,6 +73,10 @@
             return $thisOrder_id - 1;
             
         }
+		if(isset($_SERVER["REQUEST_METHOD"] =="POST" )){
+			addPromotions();
+			
+		}
 			/*
 	       function updatePromotions(){
             global $conn, $login, $password, $dbname;
