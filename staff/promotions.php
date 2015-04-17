@@ -28,8 +28,10 @@
             }
             else{
                 //keep temporarily, delete after
-			  include "../components/staffHeader_menu.html";
-               //exit(); 
+			  //include "../components/staffHeader_menu.html";
+			  	echo "Not a manager.";
+				header("location: ../index.php");
+    				exit(); 
             }
 		?>
         
