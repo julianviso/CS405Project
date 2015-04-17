@@ -59,7 +59,7 @@
             if (mysqli_error($link)){
                 $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
             }
-            
+            /*
             $result = mysqli_query($link, "
                         SELECT AUTO_INCREMENT 
                         FROM information_schema.tables
@@ -69,8 +69,7 @@
             $data = mysqli_fetch_array($result);
             //Now give thisOrder_id the next num
             $thisOrder_id = $data["AUTO_INCREMENT"];
-            
-            return $thisOrder_id - 1;
+            return $thisOrder_id - 1;*/
             
         }
 		if(isset($_SERVER["REQUEST_METHOD"] =="POST" )){
