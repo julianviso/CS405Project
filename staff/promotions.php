@@ -74,7 +74,7 @@
             
         }
 		if(isset($_SERVER["REQUEST_METHOD"] =="POST" )){
-			addPromotions();
+			addPromotion();
 			
 		}
 			/*
