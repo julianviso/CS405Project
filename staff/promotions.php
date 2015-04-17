@@ -20,7 +20,11 @@
   });
 </script>
     
-        <?php
+        
+    
+</head>
+<body>
+	<?php
             session_start();
             require "../sql/serverinfo.php";
             if($_SESSION["manager"] == 1){
@@ -36,7 +40,7 @@
 	<?php
 		$require "../sql/serverinfo.php";
 		$query = "SELECT *
-				FROMT Products";
+				FROM Products";
 		$link = mysqli_connect($conn, $login, $password, $dbname);
 		$result = mysqli_query($link, $query);
 		if ($result){
@@ -57,12 +61,22 @@
 				<td align="center">' . $row['price'] . '</td>
 				<td align="center">' . $row['qty'] . '</td>';
 				
+				//Get the input and button for updating sale price
+				echo '<form id=form'.$row['prod_id'].' method="post" action="promotions.php">
+					<input type="hidden" name="prod_id" id="prod_id" value="'.$row['prod_id'].'"/>
+					<input type="text" name="changePrice" id="changePrice"/>
+					<input type="date" name="startDate"/>
+					<input type="date" name="endDate"/>
+					<input type="submit" name="discount" id="discount" value="Commit"/>
+				</form></td>';
+				//</tr>
+			}
+			else{
+				echo "some kind of error happened"	
 			}
 		}
 	?>
-    
-</head>
-<body>
-
+	
+	
 </body>
 </html>
