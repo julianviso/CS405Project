@@ -19,12 +19,7 @@
     $('#dc_mega-menu-orange').dcMegaMenu({rowItems:'4',speed:'fast',effect:'fade'});
   });
 </script>
-    
-        
-    
-</head>
-<body>
-	<?php
+    <?php
             session_start();
             require "../sql/serverinfo.php";
             if($_SESSION["manager"] == 1){
@@ -37,6 +32,11 @@
                //exit(); 
             }
 		?>
+        
+    
+</head>
+<body>
+	
 	<?php
 		$require "../sql/serverinfo.php";
 		$query = "SELECT *
@@ -79,4 +79,6 @@
 	
 	
 </body>
+<footer>
+</footer>
 </html>
