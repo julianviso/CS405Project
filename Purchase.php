@@ -77,7 +77,7 @@ Postconditions:
                             &return_url='.$current_url.'
                             &newQty='.($q-1).'">&minus;
                         </a></span>
-                        /
+                        
                         <span class="increment_qty">
                         <a href="cart_update.php?setQtyp=
                             '.$cart_item["prod_id"].'

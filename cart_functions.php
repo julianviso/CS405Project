@@ -54,8 +54,8 @@
         *   If that sets the quantity to 0, removes it from the cart.
         */
         function setQtyp(){
-            $prod_id = $_GET["setQtyp"]; //get the product prod_id to remove
-            $newQty = $_GET["newQty"];
+            $prod_id = $_GET["setQtyp"]; //get the product prod_id to update
+            $newQty = (int)($_GET["newQty"]);
             $return_url = base64_decode($_GET["return_url"]); //get return url
 
             foreach ($_SESSION["cart_items"] as $key => $cart_item) {
@@ -63,7 +63,7 @@
                     //Getting the products from the cart
                     $tempCart = $_SESSION["cart_items"];
                     $tempProduct = $tempCart[$key];
-                    $tempQty = $tempProduct["qty"];
+                    $tempQty = (int)($tempProduct["qty"]);
                     
                     //Change the quantity if it will be greater than 0
                     if ($newQty > 0){
@@ -78,6 +78,7 @@
                     //Put back into the cart to save
                     $_SESSION["cart_items"] = $tempCart;
                 }
+                echo $newQty;
             }
 
         }
@@ -107,10 +108,10 @@
             $return_url = base64_decode($_GET["return_url"]); //get return url
             //Now put them into the new array
             $tempProduct = array();
-            $tempProduct["prod_id"] = $prod_id;
+            $tempProduct["prod_id"] = (int)($prod_id);
             $tempProduct["name"] = $newName;
-            $tempProduct["price"] = $newPrice;
-            $tempProduct["qty"] = $newQty;
+            $tempProduct["price"] = (float)($newPrice);
+            $tempProduct["qty"] = (int)($newQty);
             
             //Get the current session array and add the new product
             $tempCart = null;
@@ -122,6 +123,7 @@
             }
             $tempCart[$prod_id] = $tempProduct;
             $_SESSION["cart_items"] = $tempCart;
+            
         }
 
         /**

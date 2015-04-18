@@ -243,7 +243,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <p><span class="strike">$'.$price.'</span><span class="price">$'.$price.'</span></p>
 
                     <div class="button"><span><img src="images/cart.jpg" alt="Add to cart" /><a href="preview-3.html" class="cart-button">Add to Cart</a></span> </div>
-                        <input type="hidden" name="prod_id" value="2" />
+                        <input type="hidden" name="prod_id" value="'.$row["prod_id"].'" />
                         <div class="button">
                             <span><input type="submit" value="Details" /></span>
                         </div>

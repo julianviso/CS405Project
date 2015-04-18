@@ -91,7 +91,7 @@ function displayInfo($row){
     //echo $add_cart_string;
     echo '<div class="add-cart">
                 <div class="button"><span>
-                <a href="cart_update.php?addProduct='.$row["prod_id"].'&prod_id='.$row["prod_id"].'&newName='.$row["name"].'&newPrice='.$row["price"].'&newQty='.$row["qty"].'&return_url='.$current_url.'">Add to Cart</a></span></div>
+                <a href="cart_update.php?addProduct='.$row["prod_id"].'&prod_id='.$row["prod_id"].'&newName='.$row["name"].'&newPrice='.$row["price"].'&newQty=1&return_url='.$current_url.'">Add to Cart</a></span></div>
                 <div class="clear"></div>
             </div>
         </div>';
