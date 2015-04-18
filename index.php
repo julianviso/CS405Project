@@ -136,13 +136,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     //Get the total number of products
     if (!isset($_SESSION["total_pages"])){
+        //Connect to the database
         $link = mysqli_connect($host, $login, $password, $dbname);
         
+        //Determine the total number of products available
         $query_string = 
                 "SELECT COUNT(*)
                 FROM Products";
         $response = mysqli_query($link, $query_string);
         $row = mysqli_fetch_array($response);
+        
+        //Calculate the total pages available to display
         $total_pages = ceil((int)($row["COUNT(*)"])/4);
         echo '<h3>'.$total_products.'</h3>';
         if (mysqli_error($link)){
@@ -158,54 +162,50 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <p>Result Pages:
                     <ul>';
 
-                //If this is a POST request, display the requested page number
-                if(isset($_SERVER["REQUEST_METHOD"])
-                    && $_SERVER["REQUEST_METHOD"] == "POST"
-                    && isset($_POST["page"])){
-                    
-                    $current = -1;
+    //If this is a POST request, display the requested page number
+    if(isset($_SERVER["REQUEST_METHOD"])
+        && $_SERVER["REQUEST_METHOD"] == "POST"
+        && isset($_POST["page"])){
 
-                    if (isset($_POST["next"])){
-                        $current = $_POST["page"];
-                        $current = $current + 1;
-                    }
-                    else if (isset($_POST["prev"])){
-                        $current = $_POST["page"];
-                        $current = $current - 1;
-                    }
-                    if ($current < 1){
-                        $current = 1;    
-                    }
-                    echo '<h3>'.$current.'</h3>';
-                    echo '<h3>'.$_POST["page"].'</h3>';
-                    echo '<input type="hidden" name="page" value="'.$current.'"></input>';
-                    echo '<li><input type="submit" name="prev" value="prev" /></li>';
-                    
-                    //Initializing start and stop conditions
-                    $i = $current - 3;
-                    if ($i < 1){
-                        $i = 1;   
-                    }
-                    $j = $current + 3;
-                    //Display the available list
-                    for (; $i < $j; $i = $i +1){
-                        if ($i == $current){
-                            echo '<li>'.$i.'</li>';   
-                        }
-                        else {
-                        echo '<li class="active"><a href ="#">'.$i.'</a></li>';
-                        }
-                    }
-                    
-                }
-                //Otherwise, just display the first page options
-                else {
-                    echo '<li><a href="#">1</a></li>
-                    <li class="active"><a href="#">2</a></li>
-                    <li class="active"><a href="#">3</a></li>';
-                    echo '<input type="hidden" name="page" value="1" />';
+        $current = (int)$_POST["page"];
+        if (isset($_POST["next"]) && $current < $total_pages - 1){
+            $current = $current + 1;
+        }
+        else if (isset($_POST["prev"]) && $current > 0){
+            $current = $current - 1;
+        }
+        $_POST["page"] = $current;
 
-                }
+        // echo '<h3>'.$_POST["next"].'</h3>';
+        // echo '<h3>'.$_POST["prev"].'</h3>';
+        echo '<input type="hidden" name="page" value="'.$current.'"></input>';
+        echo '<li><input type="submit" name="prev" value="Prev" /></li>';
+
+        //Initializing start and stop conditions
+        $i = $current - 3;
+        if ($i < 1){
+            $i = 1;   
+        }
+        $j = $current + 3;
+        //Display page numbers in a list
+        for (; $i < $j; $i = $i +1){
+            if ($i == $current + 1){
+                echo '<li>'.$i.'</li>';   
+            }
+            else {
+            echo '<li class="active"><a href ="#">'.$i.'</a></li>';
+            }
+        }
+
+    }
+    //Otherwise, just display the first page options
+    else {
+        echo '<li><a href="#">1</a></li>
+        <li class="active"><a href="#">2</a></li>
+        <li class="active"><a href="#">3</a></li>';
+        echo '<input type="hidden" name="page" value="0" />';
+
+    }
     echo            '<li><input type="submit" name = "next" value="Next" /></li>';
     echo'           </ul>
                 </p>
@@ -215,8 +215,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         
 ?>
         </div>
-     
-     
         <div class="section group">
 <?php   
         /**
@@ -232,17 +230,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
          *  Has an add to cart button and details button.
          */
         function showproduct($row){
+            $prod_id = $row["prod_id"];
             $name = $row["name"];
             $description = $row["description"];
             $price = $row["price"];
+            $current_url = base64_encode("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+            $thumbnail_src = "Thumbnails/sorry.png";
+            if(file_exists("Thumbnails/" .$name . ".png")){
+                $thumbnail_src = "Thumbnails/" .$name . ".png";
+            }
+            
             echo '<div class="grid_1_of_4 images_1_of_4">
                     <form name="product_listing" method="post" action="product_details.php">
-                    <img src="images/feature-pic1.png" alt="" />
+                    <img src="'.$thumbnail_src.'" alt="" />
                     <h1>'.$name.'</h1>
-                    <p>'.$description.'</p>
-                    <p><span class="strike">$'.$price.'</span><span class="price">$'.$price.'</span></p>
+                    <p>'.$description.'</p>';
+            
+            echo '<p><span class="strike">$'.$price.'</span>';
+            
+            if (true){
+                echo '<span class="price">$'.$price.'</span></p>';
+            }
+            
 
-                    <div class="button"><span><img src="images/cart.jpg" alt="Add to cart" /><a href="preview-3.html" class="cart-button">Add to Cart</a></span> </div>
+            echo '<div class="button"><span><img src="images/cart.jpg" alt="Add to cart" /><a href="cart_update.php?addProduct='.$row["prod_id"].'&prod_id='.$row["prod_id"].'&newName='.$row["name"].'&newPrice='.$row["price"].'&newQty=1&return_url='.$current_url.'" class="cart-button">Add to Cart</a></span> </div>
                         <input type="hidden" name="prod_id" value="'.$row["prod_id"].'" />
                         <div class="button">
                             <span><input type="submit" value="Details" /></span>
@@ -253,8 +264,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         }
 
         /**
-         *
-         *
+         * getProduct()
+         * Purpose:
+         *  Gets a single row from the products table..
+         * Precondions:
+         *  A connection to the mysql database
+         * Post-conditions:
+         *  Returns a row from the database corresponding to the
+         *  product ID.
          */
         function getProduct($link, $prod_id){
             //Query for the Orders corresponding to this session user
@@ -284,15 +301,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             && $_SERVER["REQUEST_METHOD"] == "POST"
             && isset($_POST["page"])){
                 
-            $i = (int)($_POST["page"]);
-            $j = $i * 4 + 4;
-            for($i = $i * 4; $i <= $j; $i = $i +1){
+            $i = ((int)($_POST["page"])) * 4 + 1;
+            $j = $i + 3;
+            for(; $i <= $j; $i = $i +1){
                 $row = getProduct($link, $i);
                 showproduct($row);
             }        
         }
-        else{
-            
+        else{ //Just display the first page.
             for($i=1; $i <= 4; $i = $i +1){
                 $row = getProduct($link, $i);
                 showproduct($row);

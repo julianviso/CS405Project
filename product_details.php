@@ -5,11 +5,6 @@
         include "components/header_top.php";
         include "components/header_menu.html";
 
-        if (!isset($_SESSION["email"])) {
-            //header("location: PleaseLogin.php");
-            //exit();
-        }
-
     ?>
 
 <head>
@@ -71,15 +66,29 @@ function displayInfo($row){
             $closing_string;
     $current_url = base64_encode("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
     
-    //$row = array();
-    //$row["prod_id"] = 5;
-    //$row["name"] = "iPhone";
-    //$row["price"] = 100.0;
-    //$row["qty"] = 1;
-    //$row["description"] = "5th generation.";
+    $src = "Thumbnails/sorry.png";
+    echo "Thumbnails/" .$row["name"] . ".png";
+    if(file_exists("Thumbnails/" .$row["name"] . ".png")){
+        $src = "Thumbnails/" .$row["name"]. ".png";
+    }
     
-    echo $div_top_string;
+    //echo $div_top_string;
     //echo $lorem_string1;
+    echo '<div class="main">
+    <div class="content">
+    	<div class="content_top">
+    		<div class="back-links">
+    		<p><a href="#">Home</a> >> <a href="#">Electronics</a></p>
+    	    </div>
+    		<div class="clear"></div>
+    	</div>
+    	<div class="section group">
+            <div class="cont-desc span_1_of_2">				
+                <div class="grid images_3_of_2">
+                    <img src="'.$src.'" alt="" />
+                </div>
+                <div class="desc span_3_of_2">';
+    
     echo '<h1>'.$row["name"].'</h1>';
     //echo $price_string;
     echo '<div class="price">
