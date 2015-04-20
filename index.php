@@ -115,7 +115,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <div class="content">
         <div class="content_top">
             <div class="heading">
-              <h3>Featured Products</h3>
+              <h3>Shopping Featured Products</h3>
             </div>
 <?php
     /**
@@ -218,6 +218,37 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <div class="section group">
 <?php   
         /**
+         * getDiscount
+         * Preconditions:
+         *  A connection to the database
+         *  A row from the Products database
+         * Post-conditions:
+         *  Displays a single product, with possible discounted price.
+         *
+         */
+        function getDiscount($link, $row){
+            $prod_id = $row["prod_id"];
+            
+            $query = "SELECT DISTINCT *
+                      FROM Promotions
+                      WHERE prod_id='$prod_id'";
+            $response = mysqli_query($link, $query);
+            //$num_rows = mysqli_num_rows($response);
+            if (mysqli_error($link)){
+                echo $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+            }
+
+            $discount = 0;
+            // Find if there are any promotions. 
+            // The last one overrides.
+            while($row = mysqli_fetch_array($response)){
+                $discount = (float)($row["discount"]);
+            }
+            
+            return $discount;
+        }
+
+        /**
          * showproduct()
          * Purpose:
          *  Shows a single product from the given row.
@@ -229,7 +260,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
          *  Displays a single product.
          *  Has an add to cart button and details button.
          */
-        function showproduct($row){
+        function showproduct($link, $row){
             $prod_id = $row["prod_id"];
             $name = $row["name"];
             $description = $row["description"];
@@ -246,12 +277,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <h1>'.$name.'</h1>
                     <p>'.$description.'</p>';
             
-            echo '<p><span class="strike">$'.$price.'</span>';
-            
-            if (true){
+            //Check if there is a promotion for this item
+            if( ($discount = getDiscount($link, $row)) > 0){
+                echo '<p><span class="strike">$'.$price.'</span>';
+                $discounted_price = $price - $discount * $price;
+                if (true){
+                    echo '<span class="price">$'.$discounted_price.'</span></p>';
+                }
+            }
+            else {
                 echo '<span class="price">$'.$price.'</span></p>';
             }
-            
 
             echo '<div class="button"><span><img src="images/cart.jpg" alt="Add to cart" /><a href="cart_update.php?addProduct='.$row["prod_id"].'&prod_id='.$row["prod_id"].'&newName='.$row["name"].'&newPrice='.$row["price"].'&newQty=1&return_url='.$current_url.'" class="cart-button">Add to Cart</a></span> </div>
                         <input type="hidden" name="prod_id" value="'.$row["prod_id"].'" />
@@ -305,13 +341,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             $j = $i + 3;
             for(; $i <= $j; $i = $i +1){
                 $row = getProduct($link, $i);
-                showproduct($row);
+                showproduct($link, $row);
             }        
         }
         else{ //Just display the first page.
             for($i=1; $i <= 4; $i = $i +1){
                 $row = getProduct($link, $i);
-                showproduct($row);
+                showproduct($link, $row);
             }
         }
         mysqli_close($link);

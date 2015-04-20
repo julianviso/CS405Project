@@ -38,43 +38,191 @@
     
 </head>
 <body>
-	<a href="viewStatistics.php?interval=7">7 Days</a> | <a href="viewStatistics.php?interval=30">30 Days</a> | <a href="viewStatistics.php?interval=365">365 Days</a>
+    <form name="stats" method="post" action="viewStatistics.php">
+	    <input type="submit" value="Last Week" name="week" />
+        <input type="submit" value="Last Month" name="month"/>
+        <input type="submit" value="Last Year" name="year"/>
+    </form>
 	<?php
 		require "../sql/serverinfo.php";
 		//Get orders of items and check that order date is in range (now to chosen interval)
 		//NOW() = return current date and time
 		//DAY() = synonym for DAYOFMONTH(date) which returns the day of the month for date
-		$query = "SELECT *	
-				FROM Orders, Products, Orderlines
-				WHERE Orders.order_id = Orderlines.order_id AND Products.prod_id = Orderlines.prod_id
-					AND Orders.orderDate BETWEEN NOW() - INTERVAL ".$_GET['interval']." DAY AND NOW()
-				GROUP BY Orders.order_id";
-		$link = mysqli_connect($conn, $login, $password, $dbname);
-		$result = mysqli_query($link, $query);
-		$revenue = 0;
-		if ($result){
-			echo '<tr><td align="center"><b>prod_id</b></td>
-				<td align="center"><b>price</b></td>
-				<td align="center"><b>qty</b></td>
-				<td align="center"><b>total</b></td></tr>';
-			while ($row = mysqli_fetch_array($result)){
-				$qty = $row["SUM(Product.qty)"];
-				$price = $row['price'];
-				$total = $qty * $price;
-				$revenue += $total;
-				echo '<tr><td>'.$row['prod_id'].'</td>
-					<td align="center">'.$row['price'].'</td>
-					<td align="center">'.$row['SUM(Product.qty)'].'</td>
-					<td align="center">'.$total.'</td>
-					<td align="center">';
-				echo '</tr>';
-			}
-			echo "Revenue gained in the last ".$_GET['interval']." Days: ".$revenue;
-			echo '</table>';
-		}
-		else{
-			echo "Some error happened";	
-		}
+
+        if(isset($_SERVER["REQUEST_METHOD"]) &&
+            $_SERVER["REQUEST_METHOD"] == "POST"){
+                        		
+            $link = mysqli_connect($conn, $login, $password, $dbname);
+
+            showStats($link);
+            mysqli_close($link);
+        }
+
+        // Gets the date from a week ago, month ago, or year ago
+        function getDesiredDate(){
+            $query = "";
+            $date = strtotime("now");
+            if(isset($_POST["week"])){
+                $date = strtotime("-1 week");
+                $date = date( 'Y-m-d', $date );
+            }
+            else if (isset($_POST["month"])){
+                $date = strtotime("-1 month");
+                $date = date( 'Y-m-d', $date );
+            }
+            else if (isset($_POST["year"])){
+                $date = strtotime("-1 year");
+                $date = date( 'Y-m-d', $date );
+            }
+            else {
+                echo "ERROR: DID NOT UNDERSTAND POST REQUEST";
+                exit();
+            }    
+            return $date;
+        }
+
+
+        /**
+        * processResult
+        * Purpose:
+        *   Gets all the data needed for the table.
+        * Preconditions:
+        *   $link - connection to the mysql database
+        *   $result = response from the query 
+                    SELECT *
+                    FROM Orders
+                    WHERE status=1 
+                    AND orderDate > '$date'";
+        * Post-conditions:
+        *   An associative array of product IDs to quantities sold
+        */
+        function processResult($link, $result){
+            $data = array();
+            // Get every row from the Orderlines table
+            while ($row = mysqli_fetch_array($result)){
+                $oid = $row["order_id"];
+                $lines_query = "SELECT *
+                                FROM Orderlines
+                                WHERE order_id= '$oid'";
+                $lines_result = mysqli_query($link, $lines_query);
+                if (mysqli_error($link)){
+                    $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+                }
+                // Get each orderline belonging to this Order
+                while ($line_row = mysqli_fetch_array ($lines_result)) {
+                    $pid = (string)$line_row["prod_id"];
+                    $qty = (string)$line_row["quantity"];
+                    if(!isset($data[$pid])){
+                        $data[$pid] = $line_row["quantity"];    
+                    }
+                    else{
+                        $data[$pid] += $line_row["quantity"];
+                    }
+                }
+            }
+            
+            return $data;
+            
+        }
+        
+        /**
+        *   showRows()
+        *   Purpose:
+        *     Displays each product's quantity sold and total.
+        *   Preconditions:
+        *     $link = A connection to the mysql database
+        *     $data = An associative array of product IDs to qty sold
+        */
+        function showRows($link, $data){
+            
+            $total = 0;
+            foreach ($data as $key => $value){
+                // Get the price of this item
+                $query = "SELECT price
+                          FROM Products
+                          WHERE prod_id='$key'";
+                $result = mysqli_query($link, $query);
+                if (mysqli_error($link)){
+                    $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+                }
+                $row = mysqli_fetch_array($result);
+                $price = (float)($row["price"]);
+                
+                // Show results in the table
+                echo "<tr><td>".$key."</td>";
+                echo "<td>$price</td>";
+                echo "<td>$value</td>";
+                
+                // Finally, calculate each subtotal, add to total
+                $subtotal = $price * $value;
+                echo "<td>$subtotal</td>";
+                $total += $subtotal;
+            }
+            
+            return $total;
+        }
+
+
+        /**
+        * showStats()
+        * Purpose:
+        *   The main driver function.
+        *   1. Gets the desired date with getDesiredDate()
+        *   2. Queries for all Order rows in that range
+        *   3. Begins drawing the table
+        *   4. Processes results with processResults
+        *   5. Shows all the rows with showRows
+        *   6  Shows the total
+        * Preconditions:
+        *   A link to the mysql database
+        * Post-conditions:
+        *   A table with the price, qty, subtotals and total sold.
+        *
+        */
+        function showStats($link) {
+            $date = getDesiredDate();
+            
+            // First, find all the orders made after that time
+            $query = "SELECT *
+                  FROM Orders
+                  WHERE status=1 
+                  AND orderDate > '$date'";
+            
+            $result = mysqli_query($link, $query);
+            if (mysqli_error($link)){
+                $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+            }
+            
+            $result = mysqli_query($link, $query);
+            if ($result){
+                // Using the same css as the orderlines table in 
+                // the view orders page.
+                echo '<div class="orderlines">
+                        <table class="bordered">
+                        
+                        <tr><th>prod_id</th>
+                        <th>price</th>
+                        <th>qty</th>
+                        <th>total</th></tr>';
+                
+                // Get each order from the results
+                $data = processResult($link, $result);
+                
+                // Calculate the total sold
+                $total = showRows($link, $data);
+
+                echo '<tr><th colspan="3">Total:</th><th>'.$total.'</th></tr></table>
+                    </div>';            
+            }
+            else{
+                echo $err_message;	
+            }        
+        }
+
+
+
+
+           
 	?>
 </body>
 </html>
