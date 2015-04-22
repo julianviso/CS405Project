@@ -50,6 +50,8 @@ Postconditions:
             //current URL of the Page. cart_update.php redirects back to this URL
 
             function showCartContents() {
+                global $conn, $password, $dbname, $login;
+                
                 $current_url = base64_encode("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 
                 $total = 0;
@@ -86,10 +88,24 @@ Postconditions:
                         </a></span></td>';
                     echo '<td>'.$cart_item["price"].'</td>';
 
-                    $subtotal = ($cart_item["price"] * $cart_item["qty"]);
+                    $prod_id = $cart_item["prod_id"];
+                    $query = "SELECT DISTINCT *
+                              FROM Promotions
+                              WHERE prod_id='$prod_id'";
+                    $link = mysqli_connect($host, $login, $password, $dbname);
+                    $result = mysqli_query($link, $query);
+                    $row_nums = mysqli_num_rows($result);
+                    
+                    $discount = 0;
+                    if ($row_nums) {
+                        $data= mysqli_fetch_array($result);
+                        $discount = $data["discount"];
+                    }
+                    
+                    $subtotal = ($cart_item["price"] * $cart_item["qty"] - $cart_item["price"] * $cart_item["qty"] * $discount);
                     $total = ($total + $subtotal);
                     
-                    echo '<td>'.$total.'</td>';
+                    echo '<td>'.$subtotal.'</td>';
                     echo '<td><span class="remove-item">
                         <a href="cart_update.php?removep=
                         '.$cart_item["prod_id"].'&return_url=

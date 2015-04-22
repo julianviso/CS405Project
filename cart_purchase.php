@@ -206,13 +206,33 @@ Postconditions:
                             if (mysqli_error($link)){
                                 echo $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
                             }
+                            
+                            //Getting the discount
+                            $today_date = strtotime("now");
+                            $today_date = date('Y-m-d', $today_date);
+                            $discount_query = "SELECT DISTINCT *
+                                      FROM Promotions
+                                      WHERE prod_id='$prod_id'
+                                      AND startDate < '$today_date'
+                                      AND endDate > '$today_date'";
+                            
+                            $discount_result = mysqli_query($link, $discount_query);
+                            if (mysqli_error($link)){
+                                echo $err_message = mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+                            }
+                            $discount = 0;
+
+                            while($discount_data= mysqli_fetch_array($discount_result) ) {
+                                $discount = $discount_data["discount"];
+                            }
+                            
                             //Accumulate the total so far
                             $query =    'SELECT * FROM Products 
                                          WHERE prod_id=
                                          ' .$str_prod_id;
                             $result = mysqli_query($link, $query);
                             $dbrow = mysqli_fetch_array($result);
-                            $order_total = $order_total + (int)($dbrow["price"]) * $qty;
+                            $order_total = $order_total + (int)($dbrow["price"]) * $qty - (int)($dbrow["price"]) * $qty * $discount;
                             
                             //Update the total in database
                             $query =    "UPDATE Orders

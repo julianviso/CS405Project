@@ -77,7 +77,7 @@
             else {
                 echo "ERROR: DID NOT UNDERSTAND POST REQUEST";
                 exit();
-            }    
+            }
             return $date;
         }
 
@@ -154,12 +154,12 @@
                 echo "<td>$value</td>";
                 
                 // Finally, calculate each subtotal, add to total
-                $subtotal = $price * $value;
-                echo "<td>$subtotal</td>";
-                $total += $subtotal;
+                //$subtotal = $price * $value;
+                //echo "<td>$subtotal</td>";
+                //$total += $subtotal;
             }
             
-            return $total;
+            //return $total;
         }
 
 
@@ -181,6 +181,7 @@
         */
         function showStats($link) {
             $date = getDesiredDate();
+            echo "<h3>Sales after $date </h3>";
             
             // First, find all the orders made after that time
             $query = "SELECT *
@@ -202,8 +203,8 @@
                         
                         <tr><th>prod_id</th>
                         <th>price</th>
-                        <th>qty</th>
-                        <th>total</th></tr>';
+                        <th>qty</th></tr>';
+                        //<th>total</th></tr>';
                 
                 // Get each order from the results
                 $data = processResult($link, $result);
@@ -211,8 +212,8 @@
                 // Calculate the total sold
                 $total = showRows($link, $data);
 
-                echo '<tr><th colspan="3">Total:</th><th>'.$total.'</th></tr></table>
-                    </div>';            
+                //echo '<tr><th colspan="3">Total:</th><th>'.$total.'</th></tr></table>
+                echo    '</div>';            
             }
             else{
                 echo $err_message;	
